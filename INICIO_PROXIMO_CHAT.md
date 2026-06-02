@@ -85,9 +85,9 @@ C:\Users\cfcar\biopharma\
 | # | Nome | Seletor | Estado |
 |---|---|---|---|
 | 1 | **Navbar** | `#navbar` | ✅ Fixa, branca, logo 78px, links + botão WA |
-| 2 | **Hero** | `#hero` | ✅ Azul escuro, watermark SVG, 3 badges, H1 curto, 2 CTAs |
+| 2 | **Hero** | `#hero` | ✅ Fundo gradiente azul limpo (sem hero.jpg), watermark SVG, 3 badges, H1 curto, 2 CTAs |
 | 3 | **Serviços** | `#servicos` | ✅ Grid 2×2 — injetáveis com destaque azul + badge |
-| 4 | **Localização** | `#localizacao` | ✅ Mapa embed + card azul (endereço, tel, horário, CTAs) |
+| 4 | **Localização** | `#localizacao` | ✅ Mapa embed + card azul (endereço, tel, horário completo, CTAs) |
 | 5 | **Avaliações** | `#avaliacoes` | ✅ Card Google Meu Negócio + avaliação real + trust pills |
 | 6 | **CTA Final** | `#contato` | ⚠️ **LOREM IPSUM** — aguarda texto definitivo do cliente |
 | 7 | **Footer** | `.footer` | ✅ Logo pill branca centralizado + endereço + copyright |
@@ -102,8 +102,12 @@ C:\Users\cfcar\biopharma\
 | 🔴 Alta | **CTA Final**: substituir Lorem Ipsum pelo texto definitivo |
 | 🟡 Média | **Fachada**: adicionar `fachada.jpg` na pasta (slot já preparado no HTML) |
 | 🟡 Média | **Google Business**: vincular `farmaciabiopharma.vercel.app` ao perfil GMB |
-| 🟢 Baixa | **Horário completo**: confirmar todos os dias/horários e atualizar seção localização |
 | 🟢 Baixa | **Otimização de imagem**: converter `logo.png` para versão com fundo transparente |
+
+### ✅ Concluído neste chat (2026-06-02)
+- **Menu mobile**: corrigido bug do item "Contato"/faixa cinza vazando sobre o logo (transform do menu fechado agora esconde altura total + offset da navbar).
+- **Hero**: fundo trocado para gradiente azul sólido limpo (Variante 1) — removida `hero.jpg` que fazia a marca vazar atrás do texto. Subtítulo mais legível.
+- **Horários**: adicionados (Seg–Sex 09–20h, Sáb 09–18h, Dom fechado) na seção localização + `openingHoursSpecification` no schema.org.
 
 ---
 
