@@ -1,0 +1,6 @@
+# Claude Code session data (não versionar)
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
