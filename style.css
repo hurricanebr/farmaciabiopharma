@@ -202,12 +202,14 @@ ul { list-style: none; }
   line-height: 1;
   display: flex;
   align-items: center;
+  background: var(--bp-white); /* garante fundo branco na camada de composição */
 }
 .navbar__logo-img {
   display: block;
   height: 78px;
   width: auto;
   object-fit: contain;
+  background: var(--bp-white); /* evita artefatos de composição contra o hero azul */
 }
 .navbar__logo-text { display: none; }
 
