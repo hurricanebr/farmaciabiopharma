@@ -191,8 +191,6 @@ ul { list-style: none; }
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  position: relative;
-  z-index: 901;
 }
 
 .navbar__logo {
@@ -202,14 +200,12 @@ ul { list-style: none; }
   line-height: 1;
   display: flex;
   align-items: center;
-  background: var(--bp-white); /* garante fundo branco na camada de composição */
 }
 .navbar__logo-img {
   display: block;
   height: 78px;
   width: auto;
   object-fit: contain;
-  background: var(--bp-white); /* evita artefatos de composição contra o hero azul */
 }
 .navbar__logo-text { display: none; }
 
@@ -1034,10 +1030,6 @@ ul { list-style: none; }
 
   .navbar__hamburger { display: flex; }
 
-  /* Logo e hamburger precisam de z-index > menu (899) para ficarem na frente */
-  .navbar__logo      { position: relative; z-index: 910; }
-  .navbar__hamburger { position: relative; z-index: 910; }
-
   .navbar__menu {
     position: fixed;
     top: var(--nav-h); left: 0; right: 0;
@@ -1045,7 +1037,9 @@ ul { list-style: none; }
     flex-direction: column;
     gap: 0;
     box-shadow: var(--shadow-md);
-    transform: translateY(-110%);
+    /* Esconde o menu inteiro acima da tela: altura total + offset da navbar
+       + folga para a sombra não vazar sobre o logo. */
+    transform: translateY(calc(-100% - var(--nav-h) - 32px));
     transition: transform .3s ease;
     z-index: 899;
   }
