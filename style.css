@@ -191,6 +191,8 @@ ul { list-style: none; }
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  position: relative;
+  z-index: 901;
 }
 
 .navbar__logo {
