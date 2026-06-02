@@ -633,6 +633,36 @@ ul { list-style: none; }
 }
 .info-item p a:hover { color: var(--bp-white); }
 
+/* Lista de horários */
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  margin-top: .15rem;
+  max-width: 320px;
+}
+.hours-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: .95rem;
+  color: rgba(235,242,255,.9);
+  padding-bottom: .35rem;
+  border-bottom: 1px solid rgba(235,242,255,.10);
+}
+.hours-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.hours-list__day  { font-weight: 500; }
+.hours-list__time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--bp-white);
+}
+.hours-list .is-closed .hours-list__time {
+  color: rgba(235,242,255,.55);
+  font-style: italic;
+}
+
 /* ========= REVIEWS ========= */
 .reviews {
   background: var(--bp-white);

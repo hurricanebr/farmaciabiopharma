@@ -45,7 +45,21 @@
       "postalCode": "90050-160",
       "addressCountry": "BR"
     },
-    "areaServed": "Centro Histórico, Porto Alegre - RS"
+    "areaServed": "Centro Histórico, Porto Alegre - RS",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "20:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ]
   }
   </script>
 </head>
@@ -292,8 +306,11 @@
                 </span>
                 <div>
                   <strong>Horário de Funcionamento</strong>
-                  <!-- EDITAR: horário de funcionamento -->
-                  <p>Consulte nossos horários<br /><a href="https://wa.me/5551994697388" target="_blank" rel="noopener noreferrer" aria-label="Confirmar horário pelo WhatsApp">Confirme pelo WhatsApp</a></p>
+                  <ul class="hours-list">
+                    <li><span class="hours-list__day">Segunda a sexta</span><span class="hours-list__time">09:00 – 20:00</span></li>
+                    <li><span class="hours-list__day">Sábado</span><span class="hours-list__time">09:00 – 18:00</span></li>
+                    <li class="is-closed"><span class="hours-list__day">Domingo</span><span class="hours-list__time">Fechado</span></li>
+                  </ul>
                 </div>
               </div>
 
