@@ -1032,6 +1032,10 @@ ul { list-style: none; }
 
   .navbar__hamburger { display: flex; }
 
+  /* Logo e hamburger precisam de z-index > menu (899) para ficarem na frente */
+  .navbar__logo      { position: relative; z-index: 910; }
+  .navbar__hamburger { position: relative; z-index: 910; }
+
   .navbar__menu {
     position: fixed;
     top: var(--nav-h); left: 0; right: 0;
