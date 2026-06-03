@@ -213,7 +213,7 @@ ul { list-style: none; }
 .logo-bio    { color: var(--bp-blue-night); }
 .logo-pharma { color: var(--bp-blue-main); }
 
-.navbar__menu { display: flex; gap: 2rem; }
+.navbar__menu { display: flex; gap: 1.4rem; align-items: center; }
 
 .nav-link {
   font-size: .95rem;
@@ -373,20 +373,22 @@ ul { list-style: none; }
 
 .hero__title {
   font-family: var(--bp-font-brand);
-  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-size: clamp(1.75rem, 4vw, 2.85rem);
   font-weight: 700;
   color: var(--bp-white);
-  line-height: 1.18;
-  margin-bottom: 1.1rem;
+  line-height: 1.2;
+  margin: 0 auto 1.1rem;
+  max-width: 760px;
   letter-spacing: -.01em;
+  text-wrap: balance;
 }
 
 .hero__sub {
   color: rgba(235,242,255,.92);
   font-size: clamp(.95rem, 1.8vw, 1.08rem);
-  max-width: 420px;
-  margin: 0 auto 2.25rem;
-  line-height: 1.6;
+  max-width: 560px;
+  margin: 0 auto 2rem;
+  line-height: 1.65;
   letter-spacing: .01em;
 }
 
@@ -1153,4 +1155,155 @@ ul { list-style: none; }
     animation-duration: .01ms !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* =============================================
+   NOVAS SEÇÕES — conversão / landing local v4
+   ============================================= */
+
+/* ---- Navbar: CTA WhatsApp no header ---- */
+.bp-btn-whatsapp--sm { padding: 8px 16px; font-size: .9rem; }
+.bp-btn-whatsapp--sm .btn__icon { width: 17px; height: 17px; }
+.navbar__menu-cta { display: flex; align-items: center; }
+.navbar__menu-cta a.bp-btn-whatsapp--sm { display: inline-flex; }
+
+/* ---- Hero: micro-informações abaixo dos CTAs ---- */
+.hero__micro {
+  display: flex; flex-direction: column; align-items: center;
+  gap: .4rem; margin-top: 1.5rem;
+  color: rgba(235,242,255,.82); font-size: .85rem;
+}
+.hero__micro-item { display: inline-flex; align-items: center; gap: .45rem; }
+.hero__micro-item svg { width: 15px; height: 15px; opacity: .8; flex-shrink: 0; }
+
+/* ---- Selos de confiança ---- */
+.selos { background: var(--bp-light); padding: 18px 0; border-bottom: 1px solid var(--bp-border); }
+.selos__inner { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem .7rem; }
+.selo {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--bp-white); border: 1px solid var(--bp-border);
+  color: var(--bp-primary); font-size: .85rem; font-weight: 500;
+  padding: .5rem 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);
+}
+.selo svg { width: 16px; height: 16px; color: var(--bp-blue-main); flex-shrink: 0; }
+
+/* ---- Consulte pelo WhatsApp ---- */
+.consulte { background: var(--bp-light); padding: 56px 0; }
+.consulte__card {
+  background: linear-gradient(135deg, var(--bp-primary), var(--bp-blue-night));
+  color: #fff; border-radius: var(--radius-lg); padding: 2.4rem 2.5rem;
+  display: flex; align-items: center; gap: 1.75rem;
+  box-shadow: var(--shadow-soft);
+}
+.consulte__icon {
+  flex-shrink: 0; width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(37,211,102,.18); display: grid; place-items: center;
+}
+.consulte__icon svg { width: 32px; height: 32px; color: var(--bp-whatsapp); }
+.consulte__body { flex: 1; }
+.consulte__title {
+  font-family: var(--bp-font-brand); font-weight: 700;
+  font-size: clamp(1.25rem, 2.4vw, 1.65rem); margin-bottom: .5rem; line-height: 1.25;
+}
+.consulte__text { color: rgba(235,242,255,.9); font-size: 1rem; line-height: 1.6; max-width: 560px; }
+.consulte__cta { flex-shrink: 0; }
+
+/* ---- Por que escolher ---- */
+.why { background: var(--bp-white); padding: 72px 0; }
+.why__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.why-card {
+  background: var(--bp-light); border: 1px solid var(--bp-border);
+  border-radius: var(--radius-md); padding: 1.75rem 1.5rem; text-align: center;
+}
+.why-card__icon {
+  display: inline-grid; place-items: center; width: 52px; height: 52px;
+  border-radius: 50%; background: var(--bp-blue-ice); margin-bottom: 1rem;
+}
+.why-card__icon svg { width: 26px; height: 26px; color: var(--bp-blue-main); }
+.why-card__title {
+  font-family: var(--bp-font-brand); font-size: 1.05rem; font-weight: 600;
+  color: var(--bp-blue-night); margin-bottom: .4rem;
+}
+.why-card__desc { color: var(--bp-text-muted); font-size: .92rem; line-height: 1.55; }
+
+/* ---- Horário (seção dedicada, fundo claro) ---- */
+.hours-section { background: var(--bp-light); padding: 64px 0; }
+.hours-section__inner { max-width: 560px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.hours-section__head { display: flex; align-items: center; gap: .6rem; margin-bottom: 1.5rem; }
+.hours-section__head .section-title { margin-bottom: 0; }
+.hours-section__icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--bp-blue-ice); }
+.hours-section__icon svg { width: 22px; height: 22px; color: var(--bp-blue-main); }
+.hours-list--lg { max-width: 420px; width: 100%; margin-bottom: 1.25rem; }
+.hours-list--lg li { font-size: 1.02rem; color: var(--bp-text); padding: .6rem 0; border-color: var(--bp-border); }
+.hours-list--lg .hours-list__time { color: var(--bp-primary); font-weight: 600; }
+.hours-list--lg .is-closed .hours-list__time { color: var(--bp-text-muted); font-weight: 500; }
+.hours-section__micro { color: var(--bp-text-muted); font-size: .95rem; margin-bottom: 1.5rem; max-width: 440px; }
+
+/* ---- Avaliações: subtítulo + ações do card Google ---- */
+.reviews__subtitle { text-align: center; color: var(--bp-text-muted); font-size: 1.05rem; margin: -1rem auto 2.5rem; max-width: 560px; }
+.gmb-card__actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .25rem; }
+.gmb-card__actions .gmb-card__cta { background: var(--bp-blue-main); color: #fff; border-color: var(--bp-blue-main); }
+.gmb-card__actions .gmb-card__cta:hover { background: var(--bp-blue-hover); color: #fff; }
+.gmb-card__actions .gmb-card__cta--ghost { background: transparent; color: var(--bp-blue-main); border-color: var(--bp-border); }
+.gmb-card__actions .gmb-card__cta--ghost:hover { background: var(--bp-blue-ice); color: var(--bp-primary); }
+
+/* ---- Foto da fachada: legenda ---- */
+.location__photo figcaption {
+  line-height: 1.4; font-size: .8rem; color: rgba(235,242,255,.6);
+  padding: .55rem .25rem 0; text-align: left;
+}
+
+/* ---- FAQ (acordeão) ---- */
+.faq { background: var(--bp-white); padding: 72px 0; }
+.faq__list { max-width: 760px; margin-inline: auto; display: flex; flex-direction: column; gap: .75rem; }
+.faq__item { background: var(--bp-light); border: 1px solid var(--bp-border); border-radius: var(--radius-md); overflow: hidden; }
+.faq__q {
+  cursor: pointer; list-style: none;
+  padding: 1.1rem 1.4rem;
+  font-family: var(--bp-font-brand); font-weight: 600; font-size: 1.02rem; color: var(--bp-blue-night);
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q::after { content: '+'; font-size: 1.5rem; font-weight: 400; color: var(--bp-blue-main); transition: transform .2s ease; line-height: 1; }
+.faq__item[open] .faq__q::after { transform: rotate(45deg); }
+.faq__a { padding: 0 1.4rem 1.2rem; color: var(--bp-text-muted); font-size: .95rem; line-height: 1.6; }
+
+/* ---- Barra fixa de WhatsApp (mobile) ---- */
+.sticky-cta { display: none; }
+
+/* ========= RESPONSIVE: novas seções ========= */
+@media (max-width: 768px) {
+  /* Header: CTA do menu dentro do dropdown */
+  .navbar__menu-cta { padding: 12px 24px 4px; border-bottom: none; }
+  .navbar__menu-cta a.bp-btn-whatsapp--sm { width: 100%; justify-content: center; border-bottom: none; padding: 12px 18px; }
+
+  .consulte__card { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+  .why__grid { grid-template-columns: 1fr 1fr; }
+
+  /* Barra fixa aparece; flutuante some */
+  .sticky-cta {
+    display: flex; gap: .5rem;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 998;
+    padding: .55rem .75rem calc(.55rem + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.97);
+    box-shadow: 0 -4px 18px rgba(11,36,70,.14);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  }
+  .sticky-cta__btn {
+    flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    font-size: .9rem; font-weight: 600; padding: .7rem .5rem;
+    border-radius: var(--radius-sm); white-space: nowrap; text-decoration: none;
+  }
+  .sticky-cta__btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .sticky-cta__btn--wa { background: var(--bp-whatsapp); color: #fff; }
+  .sticky-cta__btn--maps { background: var(--bp-blue-ice); color: var(--bp-primary); }
+  .whatsapp-float { display: none; }
+  body { padding-bottom: 64px; }
+}
+
+@media (max-width: 480px) {
+  .why__grid { grid-template-columns: 1fr; }
+  .selos { padding: 14px 0; }
+  .consulte { padding: 48px 0; }
+  .why, .faq { padding: 56px 0; }
 }

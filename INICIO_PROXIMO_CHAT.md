@@ -107,7 +107,25 @@ C:\Users\cfcar\biopharma\
 ### ✅ Concluído neste chat (2026-06-02)
 - **Menu mobile**: corrigido bug do item "Contato"/faixa cinza vazando sobre o logo (transform do menu fechado agora esconde altura total + offset da navbar).
 - **Hero**: fundo trocado para gradiente azul sólido limpo (Variante 1) — removida `hero.jpg` que fazia a marca vazar atrás do texto. Subtítulo mais legível.
-- **Horários**: adicionados (Seg–Sex 09–20h, Sáb 09–18h, Dom fechado) na seção localização + `openingHoursSpecification` no schema.org.
+- **Horários**: adicionados (Seg–Sex 09–20h, Sáb 09–18h, Dom fechado) + `openingHoursSpecification` no schema.org.
+- **Reformulação completa para conversão / SEO local / Google Ads** (mantendo o azul):
+  - Removido Lorem Ipsum e o destaque de "Aplicação de injetáveis" (agora só no FAQ como indisponível).
+  - Navbar: menu novo (Início · Produtos · Serviços · Localização · Horários) + CTA "Consultar no WhatsApp".
+  - Hero reescrito (título/subtítulo locais, micro-info de endereço/horário).
+  - Selos novos (sem injetáveis).
+  - **Novas seções**: "Consulte pelo WhatsApp", "Por que escolher a Biopharma?", **Horário** dedicado, **FAQ** (acordeão), **barra fixa de WhatsApp no mobile**.
+  - "O que você encontra na Biopharma" (4 cards, sem injetáveis).
+  - Avaliações: avaliação real mantida + botões Ver no Google / Avaliar.
+  - CTA final definitivo + Footer com razão social (Anelise Vargas Bicca LTDA - ME), CNPJ 06.960.588/0001-01, horários e links úteis.
+  - Todos os CTAs de WhatsApp com mensagem pré-preenchida + `id`/`data-event` (click_whatsapp_*, click_maps_*, click_phone) prontos para GA4/GTM.
+  - SEO: novo title/description/OG + Schema.org `FAQPage` e `legalName`/`taxID`.
+
+### Pendências restantes
+- 🟡 Foto da fachada (`fachada.jpg`) — slot pronto, oculta automaticamente até existir.
+- 🟡 Vincular `farmaciabiopharma.vercel.app` ao Google Meu Negócio.
+- 🟢 Instalar GA4/GTM e conectar aos `data-event` dos botões.
+- 🟢 Link do Instagram no footer (quando houver perfil).
+- 🟢 Logo `logo.png` com fundo transparente.
 
 ---
 

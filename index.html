@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- EDITAR: título e descrição para SEO -->
-  <title>Biopharma Farmácia — Centro Histórico de Porto Alegre</title>
-  <meta name="description" content="Farmácia no Centro Histórico de Porto Alegre, com atendimento humanizado, medicamentos, aplicação de injetáveis e orientação farmacêutica." />
+  <title>Biopharma Farmácia | Farmácia no Centro Histórico de Porto Alegre</title>
+  <meta name="description" content="Biopharma Farmácia no Centro Histórico de Porto Alegre. Consulte medicamentos e produtos pelo WhatsApp. Estamos na Av. Des. André da Rocha, 328." />
   <meta name="theme-color" content="#0B2446" />
   <link rel="canonical" href="https://farmaciabiopharma.vercel.app/" />
 
@@ -14,12 +13,12 @@
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="Biopharma Farmácia" />
-  <meta property="og:title" content="Biopharma Farmácia" />
-  <meta property="og:description" content="Cuidado com você, perto de você. Farmácia no Centro Histórico de Porto Alegre." />
+  <meta property="og:title" content="Biopharma Farmácia | Farmácia no Centro Histórico de Porto Alegre" />
+  <meta property="og:description" content="Consulte medicamentos e produtos pelo WhatsApp antes de ir até a loja. Av. Des. André da Rocha, 328 — Centro Histórico de Porto Alegre." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:url" content="https://farmaciabiopharma.vercel.app/" />
-  <meta property="og:image" content="https://farmaciabiopharma.vercel.app/hero.jpg" />
+  <meta property="og:image" content="https://farmaciabiopharma.vercel.app/logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,6 +33,8 @@
     "@context": "https://schema.org",
     "@type": "Pharmacy",
     "name": "Biopharma Farmácia",
+    "legalName": "Anelise Vargas Bicca LTDA - ME",
+    "taxID": "06.960.588/0001-01",
     "image": "https://farmaciabiopharma.vercel.app/logo.png",
     "url": "https://farmaciabiopharma.vercel.app/",
     "telephone": "+55 51 99469-7388",
@@ -62,6 +63,41 @@
     ]
   }
   </script>
+
+  <!-- Schema.org — FAQPage (SEO local) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Vocês atendem pelo WhatsApp?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sim. Você pode chamar a Biopharma pelo WhatsApp para consultar disponibilidade de medicamentos e produtos." }
+      },
+      {
+        "@type": "Question",
+        "name": "Onde fica a Biopharma Farmácia?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Estamos na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre/RS." }
+      },
+      {
+        "@type": "Question",
+        "name": "Qual é o horário de funcionamento?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Atendemos de segunda a sexta das 09h às 20h e aos sábados das 09h às 18h. Domingos e feriados, fechado." }
+      },
+      {
+        "@type": "Question",
+        "name": "Posso consultar se um medicamento está disponível?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade." }
+      },
+      {
+        "@type": "Question",
+        "name": "Vocês fazem aplicação de injetáveis?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No momento não realizamos esse serviço. Consulte a farmácia pelo WhatsApp para confirmar os serviços disponíveis." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -72,9 +108,6 @@
   <nav class="navbar" id="navbar" role="navigation" aria-label="Navegação principal">
     <div class="navbar__inner container">
       <a href="#hero" class="navbar__logo" aria-label="Biopharma Farmácia — Início">
-        <!-- EDITAR: logo com arquivo de imagem
-             Assim que salvar logo.svg (ou logo.png) na pasta biopharma,
-             o logo de imagem aparece automaticamente no lugar do texto. -->
         <img src="logo.png"
              alt="Biopharma Farmácia"
              class="navbar__logo-img"
@@ -88,9 +121,21 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="navbar__menu" id="navMenu" role="list">
-        <li><a href="#servicos" class="nav-link">Serviços</a></li>
+        <li><a href="#hero" class="nav-link">Início</a></li>
+        <li><a href="#produtos" class="nav-link">Produtos</a></li>
+        <li><a href="#diferenciais" class="nav-link">Serviços</a></li>
         <li><a href="#localizacao" class="nav-link">Localização</a></li>
-        <li><a href="#contato" class="nav-link">Contato</a></li>
+        <li><a href="#horarios" class="nav-link">Horários</a></li>
+        <li class="navbar__menu-cta">
+          <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+             id="cta-wa-header" data-event="click_whatsapp_header"
+             class="bp-btn-whatsapp bp-btn-whatsapp--sm"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Consultar no WhatsApp">
+            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Consultar no WhatsApp
+          </a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -99,52 +144,57 @@
 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <!-- Marca d'água — símbolo Biopharma à direita -->
       <div class="hero__watermark" aria-hidden="true">
         <svg viewBox="0 0 100 100" fill="currentColor"><path d="M42 12h16v30h30v16H58v30H42V58H12V42h30z"/></svg>
       </div>
 
       <div class="hero__inner container">
-        <!-- Badges do hero -->
         <div class="hero__badges">
           <span class="hero__badge">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             Centro Histórico · Porto Alegre
           </span>
           <span class="hero__badge">Atendimento humanizado</span>
-          <span class="hero__badge hero__badge--accent">Aplicação de injetáveis</span>
+          <span class="hero__badge hero__badge--accent">Consulta pelo WhatsApp</span>
         </div>
         <span class="hero__accent" aria-hidden="true"></span>
         <h1 class="hero__title" id="hero-title">
-          <!-- EDITAR: tagline principal -->
-          Cuidado com você,<br />perto de você.
+          Farmácia no Centro Histórico de Porto Alegre com atendimento pelo WhatsApp
         </h1>
         <p class="hero__sub">
-          Biopharma Farmácia no Centro Histórico de Porto Alegre.
+          Consulte medicamentos, produtos de higiene, beleza e cuidados diários antes de ir até a loja.
+          Estamos na Av. Des. André da Rocha, 328, no Centro Histórico.
         </p>
         <!-- CTAs do hero -->
         <div class="hero__ctas">
-          <a href="https://wa.me/5551994697388"
+          <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+             id="cta-wa-hero" data-event="click_whatsapp_hero"
              class="bp-btn-whatsapp"
-             target="_blank"
-             rel="noopener noreferrer"
-             aria-label="Fale com a Biopharma pelo WhatsApp">
-            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-            </svg>
-            Fale pelo WhatsApp
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Consultar medicamento no WhatsApp">
+            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Consultar medicamento no WhatsApp
           </a>
           <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Des.+André+da+Rocha,+328,+Porto+Alegre,+RS"
+             data-event="click_maps_hero"
              class="bp-btn-ghost"
-             target="_blank"
-             rel="noopener noreferrer"
+             target="_blank" rel="noopener noreferrer"
              aria-label="Abrir rotas no Google Maps para a Biopharma">
-            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
+            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             Como chegar
           </a>
         </div>
+        <!-- Micro-informações -->
+        <p class="hero__micro">
+          <span class="hero__micro-item">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Av. Des. André da Rocha, 328 · Centro Histórico
+          </span>
+          <span class="hero__micro-item">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+            Segunda a sexta: 09h às 20h · Sábado: 09h às 18h
+          </span>
+        </p>
       </div>
       <div class="hero__wave" aria-hidden="true">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
@@ -153,39 +203,67 @@
       </div>
     </section>
 
-    <!-- ===================== SERVIÇOS ===================== -->
-    <section class="services" id="servicos" aria-labelledby="services-title">
+    <!-- ===================== SELOS DE CONFIANÇA ===================== -->
+    <section class="selos" aria-label="Destaques da Biopharma">
+      <div class="container selos__inner">
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 0C5.495 0 .157 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448C18.6 23.785 24 18.45 24 11.892 24 5.335 18.6 0 12 0z"/></svg>
+          Atendimento pelo WhatsApp
+        </span>
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+          Centro Histórico de Porto Alegre
+        </span>
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h12v2H3z"/></svg>
+          Medicamentos, higiene e beleza
+        </span>
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 15h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0020 6H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          Retirada na loja
+        </span>
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+          Rota fácil pelo Google Maps
+        </span>
+      </div>
+    </section>
+
+    <!-- ===================== CONSULTE PELO WHATSAPP ===================== -->
+    <section class="consulte" id="consulte" aria-labelledby="consulte-title">
       <div class="container">
-        <!-- EDITAR: título da seção -->
-        <h2 class="section-title" id="services-title">O que oferecemos</h2>
-        <p class="section-subtitle">Tudo que você precisa, a poucos passos do Centro.</p>
+        <div class="consulte__card">
+          <div class="consulte__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12 0C5.495 0 .157 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448C18.6 23.785 24 18.45 24 11.892 24 5.335 18.6 0 12 0z"/></svg>
+          </div>
+          <div class="consulte__body">
+            <h2 class="consulte__title" id="consulte-title">Consulte produtos pelo WhatsApp antes de sair de casa</h2>
+            <p class="consulte__text">
+              Quer saber se temos um medicamento ou produto disponível? Envie uma mensagem para a Biopharma
+              e nossa equipe verifica para você com praticidade.
+            </p>
+          </div>
+          <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+             id="cta-wa-section" data-event="click_whatsapp_section"
+             class="bp-btn-whatsapp consulte__cta"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Consultar agora no WhatsApp">
+            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Consultar agora no WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== O QUE VOCÊ ENCONTRA ===================== -->
+    <section class="services" id="produtos" aria-labelledby="produtos-title">
+      <div class="container">
+        <h2 class="section-title" id="produtos-title">O que você encontra na Biopharma</h2>
+        <p class="section-subtitle">Tudo que você precisa para o dia a dia, a poucos passos do Centro.</p>
 
         <div class="services__grid">
 
-          <!-- Card 1: Injetáveis — linguagem regulatória conforme RDC 44/2009 e RDC 96/2008 -->
-          <article class="service-card service-card--featured" aria-labelledby="srv1-title">
-            <div class="service-card__header">
-              <div class="service-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M34 6l8 8-4 4-8-8 4-4z"/>
-                <path d="M30 10L10 30l-2 10 10-2L38 18"/>
-                <line x1="20" y1="20" x2="28" y2="28"/>
-                <line x1="16" y1="24" x2="24" y2="32"/>
-              </svg>
-            </div>
-              <!-- EDITAR: remover badge se não quiser destacar -->
-              <span class="bp-badge bp-badge--green">Serviço disponível</span>
-            </div>
-            <!-- EDITAR: título e descrição do serviço de injetáveis -->
-            <h3 class="service-card__title" id="srv1-title">Aplicação de Injetáveis</h3>
-            <p class="service-card__desc">
-              Aplicação de medicamentos injetáveis prescritos com segurança e conforto,
-              realizada por profissional habilitado.
-            </p>
-          </article>
-
-          <!-- Card 2: Medicamentos -->
-          <article class="service-card" aria-labelledby="srv2-title">
+          <article class="service-card" aria-labelledby="srv1-title">
             <div class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="10" y="6" width="28" height="36" rx="4"/>
@@ -195,31 +273,37 @@
                 <line x1="18" y1="34" x2="24" y2="34"/>
               </svg>
             </div>
-            <!-- EDITAR: título e descrição -->
-            <h3 class="service-card__title" id="srv2-title">Medicamentos e Produtos</h3>
+            <h3 class="service-card__title" id="srv1-title">Medicamentos e produtos de farmácia</h3>
             <p class="service-card__desc">
-              Variedade de medicamentos, itens de higiene, beleza e cuidados para a rotina.
+              Consulte disponibilidade de medicamentos e produtos pelo WhatsApp antes de vir até a loja.
             </p>
           </article>
 
-          <!-- Card 3: Atendimento Farmacêutico -->
+          <article class="service-card" aria-labelledby="srv2-title">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 42s-14-8.5-14-20a8 8 0 0114-5.3A8 8 0 0138 22c0 11.5-14 20-14 20z"/>
+              </svg>
+            </div>
+            <h3 class="service-card__title" id="srv2-title">Higiene, beleza e cuidados pessoais</h3>
+            <p class="service-card__desc">
+              Produtos para rotina, bem-estar, pele, cabelo, higiene e cuidados diários.
+            </p>
+          </article>
+
           <article class="service-card" aria-labelledby="srv3-title">
             <div class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="24" cy="16" r="8"/>
                 <path d="M8 40c0-8.837 7.163-16 16-16s16 7.163 16 16"/>
-                <line x1="24" y1="28" x2="24" y2="36"/>
-                <line x1="20" y1="32" x2="28" y2="32"/>
               </svg>
             </div>
-            <!-- EDITAR: título e descrição -->
-            <h3 class="service-card__title" id="srv3-title">Atendimento Farmacêutico</h3>
+            <h3 class="service-card__title" id="srv3-title">Atendimento próximo e humanizado</h3>
             <p class="service-card__desc">
-              Orientação profissional para o uso correto de medicamentos e cuidados com a saúde.
+              Equipe preparada para orientar sobre produtos, formas de uso e cuidados básicos, sempre respeitando prescrições e orientações profissionais.
             </p>
           </article>
 
-          <!-- Card 4: Conveniência -->
           <article class="service-card" aria-labelledby="srv4-title">
             <div class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -227,10 +311,9 @@
                 <circle cx="24" cy="18" r="4"/>
               </svg>
             </div>
-            <!-- EDITAR: título e descrição -->
-            <h3 class="service-card__title" id="srv4-title">Conveniência no Centro</h3>
+            <h3 class="service-card__title" id="srv4-title">Farmácia no Centro Histórico</h3>
             <p class="service-card__desc">
-              Localização prática no Centro Histórico de Porto Alegre, com fácil acesso a pé ou por transporte público.
+              Localização prática para quem mora, trabalha ou circula pelo Centro de Porto Alegre.
             </p>
           </article>
 
@@ -238,17 +321,54 @@
       </div>
     </section>
 
+    <!-- ===================== POR QUE ESCOLHER ===================== -->
+    <section class="why" id="diferenciais" aria-labelledby="why-title">
+      <div class="container">
+        <h2 class="section-title" id="why-title">Por que escolher a Biopharma?</h2>
+        <p class="section-subtitle">Uma farmácia local, prática e atenciosa para o seu dia a dia.</p>
+
+        <div class="why__grid">
+          <div class="why-card">
+            <span class="why-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+            </span>
+            <h3 class="why-card__title">Localização central</h3>
+            <p class="why-card__desc">Estamos no Centro Histórico de Porto Alegre, em uma região de fácil acesso.</p>
+          </div>
+          <div class="why-card">
+            <span class="why-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+            </span>
+            <h3 class="why-card__title">Atendimento pelo WhatsApp</h3>
+            <p class="why-card__desc">Consulte produtos antes de sair de casa ou do trabalho.</p>
+          </div>
+          <div class="why-card">
+            <span class="why-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </span>
+            <h3 class="why-card__title">Atendimento humanizado</h3>
+            <p class="why-card__desc">Uma farmácia próxima, com cuidado e atenção no atendimento.</p>
+          </div>
+          <div class="why-card">
+            <span class="why-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 15h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0020 6H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            </span>
+            <h3 class="why-card__title">Produtos para o dia a dia</h3>
+            <p class="why-card__desc">Medicamentos, higiene, beleza e cuidados pessoais em um só lugar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== LOCALIZAÇÃO ===================== -->
     <section class="location" id="localizacao" aria-labelledby="location-title">
       <div class="container">
-        <!-- EDITAR: título da seção -->
         <h2 class="section-title section-title--light" id="location-title">Onde estamos</h2>
-        <p class="location__subtitle">No Centro Histórico de Porto Alegre, perto de você.</p>
+        <p class="location__subtitle">A Biopharma Farmácia está localizada na Av. Des. André da Rocha, 328, no Centro Histórico de Porto Alegre.</p>
 
         <div class="location__grid">
           <!-- Mapa -->
           <div class="location__map">
-            <!-- EDITAR: substituir pelo embed ID correto do Google Maps se necessário -->
             <iframe
               title="Mapa — Biopharma Farmácia, Av. Des. André da Rocha, 328, Porto Alegre"
               src="https://maps.google.com/maps?q=Av.+Des.+André+da+Rocha,+328,+Centro+Histórico,+Porto+Alegre+-+RS,+90050-160&output=embed"
@@ -264,12 +384,13 @@
           <!-- Informações -->
           <div class="location__info">
 
-            <!-- EDITAR: foto da fachada — salvar como fachada.jpg na pasta biopharma -->
+            <!-- Foto da fachada — salvar como fachada.jpg na pasta (oculta automaticamente se ausente) -->
             <figure class="location__photo">
               <img src="fachada.jpg"
-                   alt="Fachada da Biopharma Farmácia — Av. Des. André da Rocha, 328, Centro Histórico"
+                   alt="Fachada da Biopharma Farmácia na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre."
                    loading="lazy"
                    width="560" height="300">
+              <figcaption>Fachada da Biopharma Farmácia na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre.</figcaption>
             </figure>
 
             <!-- Card de contato -->
@@ -281,8 +402,7 @@
                 </span>
                 <div>
                   <strong>Endereço</strong>
-                  <!-- EDITAR: endereço -->
-                  <p>Av. Des. André da Rocha, 328<br />Centro Histórico, Porto Alegre - RS<br />CEP 90050-160</p>
+                  <p>Av. Des. André da Rocha, 328<br />Centro Histórico, Porto Alegre/RS<br />CEP 90050-160</p>
                 </div>
               </div>
 
@@ -292,10 +412,9 @@
                 </span>
                 <div>
                   <strong>WhatsApp e Telefone</strong>
-                  <!-- EDITAR: contato principal — WhatsApp -->
                   <p>
-                    <a href="https://wa.me/5551994697388" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp da Biopharma">+55 51 99469-7388</a><br />
-                    <a href="tel:+555132268979" aria-label="Ligar para a Biopharma">(51) 3226-8979</a>
+                    <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto." data-event="click_whatsapp_location" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp da Biopharma">+55 51 99469-7388</a><br />
+                    <a href="tel:+555132268979" data-event="click_phone" aria-label="Ligar para a Biopharma">(51) 3226-8979</a>
                   </p>
                 </div>
               </div>
@@ -305,35 +424,27 @@
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
                 </span>
                 <div>
-                  <strong>Horário de Funcionamento</strong>
-                  <ul class="hours-list">
-                    <li><span class="hours-list__day">Segunda a sexta</span><span class="hours-list__time">09:00 – 20:00</span></li>
-                    <li><span class="hours-list__day">Sábado</span><span class="hours-list__time">09:00 – 18:00</span></li>
-                    <li class="is-closed"><span class="hours-list__day">Domingo</span><span class="hours-list__time">Fechado</span></li>
-                  </ul>
+                  <strong>Horário</strong>
+                  <p>Seg a sex: 09h às 20h · Sáb: 09h às 18h<br /><a href="#horarios">Ver horários completos</a></p>
                 </div>
               </div>
 
               <!-- CTAs do contato -->
               <div class="location__ctas">
                 <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Des.+André+da+Rocha,+328,+Porto+Alegre,+RS"
+                   data-event="click_maps_location"
                    class="bp-btn-primary"
-                   target="_blank"
-                   rel="noopener noreferrer"
+                   target="_blank" rel="noopener noreferrer"
                    aria-label="Abrir rotas no Google Maps para a Biopharma">
-                  <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                  </svg>
+                  <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                   Como chegar
                 </a>
-                <a href="https://wa.me/5551994697388"
+                <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+                   data-event="click_whatsapp_location"
                    class="bp-btn-whatsapp"
-                   target="_blank"
-                   rel="noopener noreferrer"
+                   target="_blank" rel="noopener noreferrer"
                    aria-label="Confirmar atendimento pelo WhatsApp">
-                  <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                  </svg>
+                  <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                   Confirmar pelo WhatsApp
                 </a>
               </div>
@@ -344,19 +455,47 @@
       </div>
     </section>
 
-    <!-- ===================== AVALIAÇÃO / PROVA SOCIAL ===================== -->
+    <!-- ===================== HORÁRIO DE FUNCIONAMENTO ===================== -->
+    <section class="hours-section" id="horarios" aria-labelledby="hours-title">
+      <div class="container hours-section__inner">
+        <div class="hours-section__head">
+          <span class="hours-section__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+          </span>
+          <h2 class="section-title" id="hours-title">Horário de funcionamento</h2>
+        </div>
+
+        <ul class="hours-list hours-list--lg">
+          <li><span class="hours-list__day">Segunda a sexta</span><span class="hours-list__time">09h às 20h</span></li>
+          <li><span class="hours-list__day">Sábado</span><span class="hours-list__time">09h às 18h</span></li>
+          <li class="is-closed"><span class="hours-list__day">Domingos e feriados</span><span class="hours-list__time">Fechado</span></li>
+        </ul>
+
+        <p class="hours-section__micro">Antes de vir até a loja, você pode consultar a disponibilidade de produtos pelo WhatsApp.</p>
+
+        <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+           data-event="click_whatsapp_horarios"
+           class="bp-btn-whatsapp"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Consultar pelo WhatsApp">
+          <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Consultar pelo WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== AVALIAÇÕES NO GOOGLE ===================== -->
     <section class="reviews" id="avaliacoes" aria-labelledby="reviews-title">
       <div class="container reviews__inner">
 
-        <h2 class="reviews__title" id="reviews-title">O que nossos clientes dizem</h2>
+        <h2 class="reviews__title" id="reviews-title">Avaliações no Google</h2>
+        <p class="reviews__subtitle">Veja nossa ficha no Google Maps e acompanhe as avaliações reais dos clientes.</p>
 
-        <!-- Bloco Google Business — dados reais -->
         <div class="reviews__google-row">
 
           <!-- Card Google Meu Negócio -->
           <div class="gmb-card">
             <div class="gmb-card__header">
-              <!-- Google "G" oficial SVG -->
               <svg class="gmb-card__g" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -382,13 +521,23 @@
               </span>
               <span class="gmb-card__count">1 avaliação no Google</span>
             </div>
-            <a href="https://www.google.com/maps/search/Biopharma+Av.+Des.+Andr%C3%A9+da+Rocha+328+Porto+Alegre"
-               target="_blank" rel="noopener noreferrer"
-               class="gmb-card__cta"
-               aria-label="Ver avaliações da Biopharma no Google">
-              Ver no Google Maps
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
-            </a>
+            <div class="gmb-card__actions">
+              <a href="https://www.google.com/maps/search/Biopharma+Av.+Des.+Andr%C3%A9+da+Rocha+328+Porto+Alegre"
+                 target="_blank" rel="noopener noreferrer"
+                 class="gmb-card__cta"
+                 data-event="click_review_google"
+                 aria-label="Ver a Biopharma no Google Maps">
+                Ver no Google Maps
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+              </a>
+              <a href="https://www.google.com/maps/search/Biopharma+Av.+Des.+Andr%C3%A9+da+Rocha+328+Porto+Alegre"
+                 target="_blank" rel="noopener noreferrer"
+                 class="gmb-card__cta gmb-card__cta--ghost"
+                 data-event="click_review_google"
+                 aria-label="Avaliar a Biopharma no Google">
+                Avaliar a Biopharma
+              </a>
+            </div>
           </div>
 
           <!-- Card da avaliação real -->
@@ -401,7 +550,6 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               </span>
-              <!-- Google G no card da avaliação -->
               <svg class="review-card__source" viewBox="0 0 24 24" aria-label="Google" title="Avaliação no Google">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -419,7 +567,6 @@
 
         </div><!-- /.reviews__google-row -->
 
-        <!-- Pílulas de confiança -->
         <div class="reviews__pills">
           <span class="trust-pill">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -431,10 +578,41 @@
           </span>
           <span class="trust-pill">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3h-4.18A3 3 0 0012 1a3 3 0 00-2.82 2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 0a1 1 0 110 2 1 1 0 010-2zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9z"/></svg>
-            Serviços farmacêuticos
+            Produtos para o dia a dia
           </span>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 class="section-title" id="faq-title">Perguntas frequentes</h2>
+        <p class="section-subtitle">Tire suas dúvidas sobre a Biopharma Farmácia.</p>
+
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary class="faq__q">Vocês atendem pelo WhatsApp?</summary>
+            <div class="faq__a"><p>Sim. Você pode chamar a Biopharma pelo WhatsApp para consultar disponibilidade de medicamentos e produtos.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Onde fica a Biopharma Farmácia?</summary>
+            <div class="faq__a"><p>Estamos na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre/RS.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Qual é o horário de funcionamento?</summary>
+            <div class="faq__a"><p>Atendemos de segunda a sexta das 09h às 20h e aos sábados das 09h às 18h. Domingos e feriados, fechado.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Posso consultar se um medicamento está disponível?</summary>
+            <div class="faq__a"><p>Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Vocês fazem aplicação de injetáveis?</summary>
+            <div class="faq__a"><p>No momento não realizamos esse serviço. Consulte a farmácia pelo WhatsApp para confirmar os serviços disponíveis.</p></div>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -444,35 +622,31 @@
         <svg viewBox="0 0 100 100" fill="currentColor"><path d="M42 12h16v30h30v16H58v30H42V58H12V42h30z"/></svg>
       </div>
       <div class="container final-cta__inner">
-        <h2 class="final-cta__title" id="final-cta-title">Lorem ipsum dolor sit amet</h2>
+        <h2 class="final-cta__title" id="final-cta-title">Precisa consultar um medicamento ou produto?</h2>
         <p class="final-cta__text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+          Fale com a Biopharma pelo WhatsApp e consulte disponibilidade antes de sair de casa ou do trabalho.
+          Estamos no Centro Histórico de Porto Alegre, com fácil acesso e atendimento humanizado.
         </p>
         <div class="final-cta__ctas">
-          <a href="https://wa.me/5551994697388"
+          <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+             id="cta-wa-final" data-event="click_whatsapp_final"
              class="bp-btn-whatsapp"
-             target="_blank"
-             rel="noopener noreferrer"
-             aria-label="Fale com a Biopharma pelo WhatsApp">
-            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-            </svg>
-            Fale pelo WhatsApp
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Consultar pelo WhatsApp">
+            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Consultar pelo WhatsApp
           </a>
           <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Des.+André+da+Rocha,+328,+Porto+Alegre,+RS"
+             data-event="click_maps_location"
              class="bp-btn-ghost"
-             target="_blank"
-             rel="noopener noreferrer"
+             target="_blank" rel="noopener noreferrer"
              aria-label="Abrir rotas no Google Maps para a Biopharma">
-            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
+            <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             Como chegar
           </a>
         </div>
       </div>
     </section>
-
 
   </main>
 
@@ -481,7 +655,6 @@
     <div class="container footer__inner">
       <div class="footer__divider" aria-hidden="true"></div>
       <a href="#hero" class="footer__logo" aria-label="Biopharma Farmácia — voltar ao topo">
-        <!-- Logo no footer: mesmo logo.png do navbar, dentro de pílula branca para contraste -->
         <span class="footer__logo-pill">
           <img src="logo.png"
                alt="Biopharma Farmácia"
@@ -493,24 +666,52 @@
           </span>
         </span>
       </a>
+
       <address class="footer__address">
-        <!-- EDITAR: endereço e telefone no footer -->
-        Av. Des. André da Rocha, 328 — Centro Histórico, Porto Alegre - RS<br />
-        <a href="https://wa.me/5551994697388" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Biopharma">+55 51 99469-7388</a>
+        <strong>Biopharma Farmácia</strong><br />
+        Anelise Vargas Bicca LTDA - ME · CNPJ: 06.960.588/0001-01<br />
+        Av. Des. André da Rocha, 328 — Centro Histórico, Porto Alegre/RS — CEP 90050-160<br />
+        WhatsApp: <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto." data-event="click_whatsapp_footer" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Biopharma">+55 51 99469-7388</a>
         &nbsp;·&nbsp;
-        <a href="tel:+555132268979" aria-label="Telefone da Biopharma">(51) 3226-8979</a>
+        Telefone: <a href="tel:+555132268979" data-event="click_phone" aria-label="Telefone da Biopharma">(51) 3226-8979</a><br />
+        Segunda a sexta: 09h às 20h · Sábado: 09h às 18h · Domingos e feriados: fechado
       </address>
-      <!-- EDITAR: ano do copyright -->
+
+      <nav class="footer__links" aria-label="Links úteis">
+        <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto." data-event="click_whatsapp_footer" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Des.+André+da+Rocha,+328,+Porto+Alegre,+RS" data-event="click_maps_footer" target="_blank" rel="noopener noreferrer">Como chegar</a>
+        <a href="https://www.google.com/maps/search/Biopharma+Av.+Des.+Andr%C3%A9+da+Rocha+328+Porto+Alegre" data-event="click_review_google" target="_blank" rel="noopener noreferrer">Google Maps</a>
+      </nav>
+
       <p class="footer__copy">© 2026 Biopharma Farmácia. Todos os direitos reservados.</p>
     </div>
   </footer>
 
-  <!-- ===================== BOTÃO WHATSAPP FLUTUANTE ===================== -->
-  <!-- EDITAR: link WhatsApp do botão flutuante -->
-  <a href="https://wa.me/5551994697388"
+  <!-- ===================== BARRA FIXA WHATSAPP (mobile) ===================== -->
+  <div class="sticky-cta" aria-label="Ações rápidas">
+    <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
+       data-event="click_whatsapp_section"
+       class="sticky-cta__btn sticky-cta__btn--wa"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Consultar no WhatsApp">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Consultar no WhatsApp
+    </a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+Des.+André+da+Rocha,+328,+Porto+Alegre,+RS"
+       data-event="click_maps_location"
+       class="sticky-cta__btn sticky-cta__btn--maps"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Como chegar">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Como chegar
+    </a>
+  </div>
+
+  <!-- ===================== BOTÃO WHATSAPP FLUTUANTE (desktop) ===================== -->
+  <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto."
      class="whatsapp-float"
-     target="_blank"
-     rel="noopener noreferrer"
+     data-event="click_whatsapp_section"
+     target="_blank" rel="noopener noreferrer"
      aria-label="Fale conosco no WhatsApp"
      title="Fale conosco no WhatsApp">
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
