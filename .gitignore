@@ -4,3 +4,8 @@
 # OS
 .DS_Store
 Thumbs.db
+
+# Artefatos temporários de geração de PDF
+_estrategia_tmp.html
+_edge_profile/
+_preview_*.png
