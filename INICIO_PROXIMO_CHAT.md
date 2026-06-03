@@ -1,5 +1,5 @@
 # Biopharma Farmácia — Contexto para novo chat
-> Gerado em 2026-06-02. Cole este arquivo inteiro como primeira mensagem do próximo chat.
+> Gerado em 2026-06-03. Cole este arquivo inteiro como primeira mensagem do próximo chat.
 
 ---
 
@@ -14,7 +14,7 @@ Landing page estática (HTML + CSS + JS puro) da **Biopharma Farmácia**.
 | **URL produção** | https://farmaciabiopharma.vercel.app/ |
 | **Preview local** | `npx serve -p 3004 C:\Users\cfcar\biopharma` → http://localhost:3004 |
 | **Branch** | `main` |
-| **Último commit** | `93173de` — Refactor completo UI/UX |
+| **Último commit** | `4f20728` — Reformulação completa para conversão / SEO local / Google Ads |
 
 ---
 
@@ -64,16 +64,16 @@ Body:     Inter 400/500/600
 
 ```
 C:\Users\cfcar\biopharma\
-├── index.html                  ← estrutura HTML completa (~390 linhas)
-├── style.css                   ← todos os estilos (~1050 linhas)
+├── index.html                  ← HTML completo (~530 linhas) — landing reformulada
+├── style.css                   ← todos os estilos (~1250 linhas)
 ├── script.js                   ← comportamentos JS (~101 linhas)
-├── logo.png                    ← logo oficial (PNG, fundo branco)
-├── banner.png                  ← asset de marca
+├── logo.png                    ← logo oficial (PNG, fundo branco, 1182×329px)
+├── banner.png / hero.jpg       ← assets de marca (dark blue, não usados como fundo)
 ├── identidade.png              ← asset de marca
 ├── endereco_cartao.png         ← asset de marca
 ├── mockup.png                  ← asset de marca
-├── hero.jpg / hero.png         ← cópia do logo (não usada ativamente)
-├── fachada.jpg                 ← ⚠️ AUSENTE — adicionar quando disponível
+├── fachada.jpg                 ← ⚠️ AUSENTE — gerar em 1200×630px JPG ≤250KB
+├── ebook-ifood-farma/          ← pasta local (não versionada no main)
 ├── .gitignore                  ← exclui .claude/ do versionamento
 └── INICIO_PROXIMO_CHAT.md      ← este arquivo
 ```
@@ -84,48 +84,51 @@ C:\Users\cfcar\biopharma\
 
 | # | Nome | Seletor | Estado |
 |---|---|---|---|
-| 1 | **Navbar** | `#navbar` | ✅ Fixa, branca, logo 78px, links + botão WA |
-| 2 | **Hero** | `#hero` | ✅ Fundo gradiente azul limpo (sem hero.jpg), watermark SVG, 3 badges, H1 curto, 2 CTAs |
-| 3 | **Serviços** | `#servicos` | ✅ Grid 2×2 — injetáveis com destaque azul + badge |
-| 4 | **Localização** | `#localizacao` | ✅ Mapa embed + card azul (endereço, tel, horário completo, CTAs) |
-| 5 | **Avaliações** | `#avaliacoes` | ✅ Card Google Meu Negócio + avaliação real + trust pills |
-| 6 | **CTA Final** | `#contato` | ⚠️ **LOREM IPSUM** — aguarda texto definitivo do cliente |
-| 7 | **Footer** | `.footer` | ✅ Logo pill branca centralizado + endereço + copyright |
-| 8 | **WA Flutuante** | `.whatsapp-float` | ✅ Fixo canto inferior direito |
+| 1 | **Navbar** | `#navbar` | ✅ Fixa, branca, logo 78px, menu 6 links + botão CTA "Consultar no WhatsApp" |
+| 2 | **Hero** | `#hero` | ✅ H1 local, subtítulo comercial, micro-info (endereço + horário), 2 CTAs |
+| 3 | **Selos** | `.selos` | ✅ 5 selos (WA, Centro Histórico, produtos, retirada, rota Maps) |
+| 4 | **Consulte pelo WhatsApp** | `#consulte` | ✅ Card azul destacado com CTA + mensagem pré-preenchida |
+| 5 | **O que você encontra** | `#produtos` | ✅ 4 cards (sem injetáveis) |
+| 6 | **Por que escolher** | `#diferenciais` | ✅ 4 diferenciais em grid |
+| 7 | **Localização** | `#localizacao` | ✅ Mapa embed + card azul (endereço, tel, horário resumido, CTAs) |
+| 8 | **Horário** | `#horarios` | ✅ Seção dedicada (Seg–Sex 09–20h, Sáb 09–18h, Dom fechado) + CTA WA |
+| 9 | **Avaliações** | `#avaliacoes` | ✅ Card Google + avaliação real + botão "Avaliar a Biopharma" |
+| 10 | **FAQ** | `#faq` | ✅ Acordeão 5 perguntas (injetáveis: indisponível) |
+| 11 | **CTA Final** | `#contato` | ✅ Texto definitivo focado em WhatsApp |
+| 12 | **Footer** | `.footer` | ✅ Razão social, CNPJ, endereço, horários, links úteis |
+| 13 | **WA Flutuante** | `.whatsapp-float` | ✅ Desktop only (some no mobile) |
+| 14 | **Barra fixa mobile** | `.sticky-cta` | ✅ Mobile only — WA + Como chegar na base |
 
 ---
 
 ## Pendências
 
-| Prioridade | Item |
+| Prioridade | Item | Como fazer |
+|---|---|---|
+| 🟡 Média | **Foto da fachada** | Gerar/tirar foto → salvar como `fachada.jpg` em 1200×630px, JPG ≤250KB, na pasta `C:\Users\cfcar\biopharma\`. O slot já existe e fica oculto automaticamente enquanto o arquivo não existir. |
+| 🟡 Média | **Google Meu Negócio** | Acessar business.google.com → Editar perfil → campo "Website" → digitar `https://farmaciabiopharma.vercel.app/` |
+| 🟢 Baixa | **GA4/GTM** | Google Analytics 4. Todos os botões já têm `data-event` prontos. Instalar só quando quiser medir cliques e conversões. Pedir ao Claude para fazer. |
+| 🟢 Baixa | **Instagram** | Adicionar link no footer quando criar o perfil. |
+| 🟢 Baixa | **Logo transparente** | Converter `logo.png` para versão com fundo transparente (PNG sem fundo). |
+
+## Rastreamento (botões já instrumentados para GA4/GTM)
+
+| `data-event` | Botão |
 |---|---|
-| 🔴 Alta | **CTA Final**: substituir Lorem Ipsum pelo texto definitivo |
-| 🟡 Média | **Fachada**: adicionar `fachada.jpg` na pasta (slot já preparado no HTML) |
-| 🟡 Média | **Google Business**: vincular `farmaciabiopharma.vercel.app` ao perfil GMB |
-| 🟢 Baixa | **Otimização de imagem**: converter `logo.png` para versão com fundo transparente |
+| `click_whatsapp_header` | CTA do navbar |
+| `click_whatsapp_hero` | Hero |
+| `click_whatsapp_section` | Seção "Consulte" e barra mobile |
+| `click_whatsapp_final` | CTA final |
+| `click_maps_hero` | "Como chegar" no hero |
+| `click_maps_location` | "Como chegar" na localização |
+| `click_phone` | Telefone (51) 3226-8979 |
+| `click_review_google` | Botões de avaliação Google |
 
-### ✅ Concluído neste chat (2026-06-02)
-- **Menu mobile**: corrigido bug do item "Contato"/faixa cinza vazando sobre o logo (transform do menu fechado agora esconde altura total + offset da navbar).
-- **Hero**: fundo trocado para gradiente azul sólido limpo (Variante 1) — removida `hero.jpg` que fazia a marca vazar atrás do texto. Subtítulo mais legível.
-- **Horários**: adicionados (Seg–Sex 09–20h, Sáb 09–18h, Dom fechado) + `openingHoursSpecification` no schema.org.
-- **Reformulação completa para conversão / SEO local / Google Ads** (mantendo o azul):
-  - Removido Lorem Ipsum e o destaque de "Aplicação de injetáveis" (agora só no FAQ como indisponível).
-  - Navbar: menu novo (Início · Produtos · Serviços · Localização · Horários) + CTA "Consultar no WhatsApp".
-  - Hero reescrito (título/subtítulo locais, micro-info de endereço/horário).
-  - Selos novos (sem injetáveis).
-  - **Novas seções**: "Consulte pelo WhatsApp", "Por que escolher a Biopharma?", **Horário** dedicado, **FAQ** (acordeão), **barra fixa de WhatsApp no mobile**.
-  - "O que você encontra na Biopharma" (4 cards, sem injetáveis).
-  - Avaliações: avaliação real mantida + botões Ver no Google / Avaliar.
-  - CTA final definitivo + Footer com razão social (Anelise Vargas Bicca LTDA - ME), CNPJ 06.960.588/0001-01, horários e links úteis.
-  - Todos os CTAs de WhatsApp com mensagem pré-preenchida + `id`/`data-event` (click_whatsapp_*, click_maps_*, click_phone) prontos para GA4/GTM.
-  - SEO: novo title/description/OG + Schema.org `FAQPage` e `legalName`/`taxID`.
+## WhatsApp — mensagem pré-preenchida em todos os links
 
-### Pendências restantes
-- 🟡 Foto da fachada (`fachada.jpg`) — slot pronto, oculta automaticamente até existir.
-- 🟡 Vincular `farmaciabiopharma.vercel.app` ao Google Meu Negócio.
-- 🟢 Instalar GA4/GTM e conectar aos `data-event` dos botões.
-- 🟢 Link do Instagram no footer (quando houver perfil).
-- 🟢 Logo `logo.png` com fundo transparente.
+```
+https://wa.me/5551994697388?text=Olá%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto.
+```
 
 ---
 
