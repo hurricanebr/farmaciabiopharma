@@ -1307,3 +1307,66 @@ ul { list-style: none; }
   .consulte { padding: 48px 0; }
   .why, .faq { padding: 56px 0; }
 }
+
+/* =============================================
+   REDES SOCIAIS — Navbar + Footer
+   ============================================= */
+
+/* --- Navbar: ícones sociais --- */
+.navbar__social {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin-left: auto;
+  margin-right: .75rem;
+}
+.navbar__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  color: var(--bp-primary);
+  opacity: .65;
+  transition: opacity .2s, background .2s;
+  text-decoration: none;
+}
+.navbar__social-link:hover {
+  opacity: 1;
+  background: var(--bp-blue-ice);
+}
+/* Esconde no mobile (hambúrguer ocupa o espaço) */
+@media (max-width: 768px) {
+  .navbar__social { display: none; }
+}
+
+/* --- Footer: bloco de redes sociais --- */
+.footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: color .2s, opacity .2s;
+}
+.footer__social-link svg {
+  flex-shrink: 0;
+  opacity: .75;
+  transition: opacity .2s;
+}
+.footer__social-link:hover {
+  color: #fff;
+}
+.footer__social-link:hover svg {
+  opacity: 1;
+}
