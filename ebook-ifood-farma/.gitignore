@@ -1,0 +1,5 @@
+# Build intermediates (regeneráveis a partir de build/ebook.html)
+build/ebook_body.pdf
+build/preview/
+build/final_chk/
+build/edge-tmp/
