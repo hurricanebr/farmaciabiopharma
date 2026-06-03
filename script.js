@@ -12,6 +12,48 @@
   });
 })();
 
+/* ---------- Rastreamento de cliques (GA4 + Pixel da Meta) ---------- */
+/* Liga automaticamente todos os botões com [data-event].
+   Se os IDs não estiverem preenchidos no <head>, gtag/fbq não existem
+   e as chamadas abaixo são simplesmente ignoradas (site segue normal). */
+(function () {
+  function track(name) {
+    if (!name) return;
+    var isWhatsApp = name.indexOf('whatsapp') !== -1;
+    var isPhone    = name.indexOf('phone')    !== -1;
+    var isMaps     = name.indexOf('maps')     !== -1;
+    var isReview   = name.indexOf('review')   !== -1;
+
+    /* Google Analytics 4 — envia o nome do evento + categoria */
+    if (window.gtag) {
+      gtag('event', name, {
+        event_category: isWhatsApp ? 'contato'
+                       : isMaps    ? 'rota'
+                       : isPhone   ? 'ligacao'
+                       : isReview  ? 'avaliacao'
+                       : 'engajamento',
+        transport_type: 'beacon'
+      });
+    }
+
+    /* Pixel da Meta — WhatsApp e telefone viram "Contact" (ótimo p/ otimizar
+       campanhas de mensagem); os demais viram eventos personalizados. */
+    if (window.fbq) {
+      if (isWhatsApp || isPhone) {
+        fbq('track', 'Contact', { source: name });
+      } else {
+        fbq('trackCustom', name);
+      }
+    }
+  }
+
+  /* Captura na fase de captura para disparar antes da navegação */
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-event]');
+    if (el) track(el.getAttribute('data-event'));
+  }, true);
+})();
+
 /* ---------- Navbar: shadow on scroll ---------- */
 (function () {
   const navbar = document.getElementById('navbar');

@@ -108,7 +108,7 @@ C:\Users\cfcar\biopharma\
 |---|---|---|
 | ✅ Feito | **Foto da fachada** | `fachada.jpg` (1200×630, 118KB) adicionada e renderizando na seção Localização. Commit em 2026-06-03. |
 | 🟡 Média | **Google Meu Negócio** | Acessar business.google.com → Editar perfil → campo "Website" → digitar `https://farmaciabiopharma.vercel.app/` *(ação manual do dono — não pode ser feita pelo Claude)* |
-| 🟢 Baixa | **GA4/GTM** | Google Analytics 4. Todos os botões já têm `data-event` prontos. Instalar só quando quiser medir cliques e conversões. Pedir ao Claude para fazer. |
+| 🟡 Ativar | **GA4 + Pixel da Meta** | ✅ CÓDIGO INSTALADO (dormente). Falta só colar 2 IDs no topo do `<head>` do `index.html`: `window.BP_GA4_ID` (começa com `G-`) e `window.BP_PIXEL_ID` (número do Pixel). Os 21 botões `data-event` já disparam eventos automaticamente. Enquanto os IDs ficam em branco, nada carrega. |
 | 🟢 Baixa | **Instagram** | Adicionar link no footer quando criar o perfil. |
 | 🟢 Baixa | **Logo transparente** | Converter `logo.png` para versão com fundo transparente (PNG sem fundo). |
 

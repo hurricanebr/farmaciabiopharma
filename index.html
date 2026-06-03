@@ -8,6 +8,53 @@
   <meta name="theme-color" content="#0B2446" />
   <link rel="canonical" href="https://farmaciabiopharma.vercel.app/" />
 
+  <!-- ============================================================
+       RASTREAMENTO — Google Analytics 4 + Pixel da Meta
+       >>> COLE SEUS IDs ABAIXO (e só aqui).
+       Enquanto estiverem em branco ("") NADA é carregado e o site
+       funciona normalmente. Para ativar, preencha e publique.
+       ============================================================ -->
+  <script>
+    /* 1) Google Analytics 4 — cole o ID que começa com "G-" */
+    window.BP_GA4_ID   = "";   /* ex.: "G-ABCD123XYZ"     */
+    /* 2) Pixel da Meta (Facebook/Instagram) — cole o número do Pixel */
+    window.BP_PIXEL_ID = "";   /* ex.: "1234567890123456" */
+  </script>
+
+  <!-- Google Analytics 4 (carrega só se BP_GA4_ID estiver preenchido) -->
+  <script>
+    (function () {
+      if (!window.BP_GA4_ID) return;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.BP_GA4_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', window.BP_GA4_ID);
+    })();
+  </script>
+
+  <!-- Pixel da Meta (carrega só se BP_PIXEL_ID estiver preenchido) -->
+  <script>
+    (function () {
+      if (!window.BP_PIXEL_ID) return;
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () { n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+        n.queue = []; t = b.createElement(e); t.async = !0; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', window.BP_PIXEL_ID);
+      fbq('track', 'PageView');
+    })();
+  </script>
+  <noscript><!-- Pixel sem JS: substitua SEU_PIXEL_ID se quiser cobertura sem JavaScript
+    <img height="1" width="1" style="display:none" alt=""
+      src="https://www.facebook.com/tr?id=SEU_PIXEL_ID&ev=PageView&noscript=1"/> --></noscript>
+
   <!-- Favicon — cruz farmacêutica (data URI, sem arquivo externo) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230B2446'/%3E%3Cpath d='M42 18h16v24h24v16H58v24H42V58H18V42h24z' fill='%232B66D9'/%3E%3C/svg%3E" />
 
