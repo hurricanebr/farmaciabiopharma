@@ -75,6 +75,7 @@ C:\Users\cfcar\biopharma\
 ├── fachada.jpg                 ← ✅ FOTO REAL da loja (1200×630px, 118KB) — exibida na seção Localização
 ├── ebook-ifood-farma/          ← pasta local (não versionada no main)
 ├── .gitignore                  ← exclui .claude/ do versionamento
+├── ESTRATEGIA_REDES_SOCIAIS.md ← 📣 plano completo de Instagram/Facebook/Ads/WhatsApp (20 seções, pronto p/ executar)
 └── INICIO_PROXIMO_CHAT.md      ← este arquivo
 ```
 
