@@ -72,7 +72,7 @@ C:\Users\cfcar\biopharma\
 ├── identidade.png              ← asset de marca
 ├── endereco_cartao.png         ← asset de marca
 ├── mockup.png                  ← asset de marca
-├── fachada.jpg                 ← ⚠️ AUSENTE — gerar em 1200×630px JPG ≤250KB
+├── fachada.jpg                 ← ✅ FOTO REAL da loja (1200×630px, 118KB) — exibida na seção Localização
 ├── ebook-ifood-farma/          ← pasta local (não versionada no main)
 ├── .gitignore                  ← exclui .claude/ do versionamento
 └── INICIO_PROXIMO_CHAT.md      ← este arquivo
@@ -105,8 +105,8 @@ C:\Users\cfcar\biopharma\
 
 | Prioridade | Item | Como fazer |
 |---|---|---|
-| 🟡 Média | **Foto da fachada** | Gerar/tirar foto → salvar como `fachada.jpg` em 1200×630px, JPG ≤250KB, na pasta `C:\Users\cfcar\biopharma\`. O slot já existe e fica oculto automaticamente enquanto o arquivo não existir. |
-| 🟡 Média | **Google Meu Negócio** | Acessar business.google.com → Editar perfil → campo "Website" → digitar `https://farmaciabiopharma.vercel.app/` |
+| ✅ Feito | **Foto da fachada** | `fachada.jpg` (1200×630, 118KB) adicionada e renderizando na seção Localização. Commit em 2026-06-03. |
+| 🟡 Média | **Google Meu Negócio** | Acessar business.google.com → Editar perfil → campo "Website" → digitar `https://farmaciabiopharma.vercel.app/` *(ação manual do dono — não pode ser feita pelo Claude)* |
 | 🟢 Baixa | **GA4/GTM** | Google Analytics 4. Todos os botões já têm `data-event` prontos. Instalar só quando quiser medir cliques e conversões. Pedir ao Claude para fazer. |
 | 🟢 Baixa | **Instagram** | Adicionar link no footer quando criar o perfil. |
 | 🟢 Baixa | **Logo transparente** | Converter `logo.png` para versão com fundo transparente (PNG sem fundo). |
