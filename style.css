@@ -23,7 +23,7 @@
   --bp-border:      #DDDDDD;
   --bp-white:       #FFFFFF;
 
-  --nav-h: 72px;
+  --nav-h: 96px;
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -135,8 +135,8 @@ address { font-style: normal; }
 }
 
 /* Logo */
-.navbar__logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
-.navbar__logo-img { height: 52px; width: auto; object-fit: contain; }
+.navbar__logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; min-width: 220px; }
+.navbar__logo-img { height: 80px; width: auto; max-width: 280px; object-fit: contain; }
 .navbar__logo-text {
   display: none; font-family: 'Montserrat', sans-serif; font-size: 1.2rem;
   font-weight: 700; gap: 0;
@@ -695,9 +695,11 @@ address { font-style: normal; }
 }
 
 @media (max-width: 768px) {
-  :root { --nav-h: 64px; }
+  :root { --nav-h: 72px; }
 
   /* Navbar mobile */
+  .navbar__logo { min-width: unset; }
+  .navbar__logo-img { height: 56px; max-width: 180px; }
   .navbar__social { display: none; }
   .navbar__hamburger { display: flex; margin-left: auto; }
   .navbar__menu {
