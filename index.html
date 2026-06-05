@@ -111,12 +111,21 @@
   <!-- ===================== NAVBAR ===================== -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Navegação principal">
     <div class="navbar__inner container">
-      <a href="#hero" class="navbar__logo" aria-label="Biopharma Farmácia — Início">
-        <img src="logo.png" alt="Biopharma Farmácia" class="navbar__logo-img" height="80"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
-        <span class="navbar__logo-text" aria-hidden="true">
-          <span class="logo-bio">Bio</span><span class="logo-pharma">pharma</span>
-        </span>
+      <a href="#hero" class="brand" aria-label="Biopharma Farmácia — Início">
+        <div class="brand__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" width="56" height="63">
+            <!-- Cruz -->
+            <path d="M22 0 H42 V22 H64 V42 H42 V58 H22 V42 H0 V22 H22 Z" fill="#007BB6"/>
+            <!-- Folha esquerda (azul-claro) -->
+            <ellipse cx="27" cy="46" rx="8" ry="16" transform="rotate(-30 27 46)" fill="#00AFDA"/>
+            <!-- Folha direita (dourado) -->
+            <ellipse cx="38" cy="50" rx="7" ry="14" transform="rotate(30 38 50)" fill="#FFD504"/>
+          </svg>
+        </div>
+        <div class="brand__text" aria-hidden="true">
+          <span class="brand__title">Biopharma</span>
+          <span class="brand__subtitle">Farmácia</span>
+        </div>
       </a>
 
       <div class="navbar__social" aria-label="Redes sociais">

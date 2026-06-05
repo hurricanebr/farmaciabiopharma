@@ -134,15 +134,33 @@ address { font-style: normal; }
   height: 100%; display: flex; align-items: center; gap: .5rem;
 }
 
-/* Logo */
-.navbar__logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; min-width: 220px; }
-.navbar__logo-img { height: 80px; width: auto; max-width: 280px; object-fit: contain; }
-.navbar__logo-text {
-  display: none; font-family: 'Montserrat', sans-serif; font-size: 1.2rem;
-  font-weight: 700; gap: 0;
+/* Brand (composição horizontal: ícone SVG + texto) */
+.brand {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; flex-shrink: 0; padding: 2px 0;
 }
-.logo-bio    { color: var(--bp-main); }
-.logo-pharma { color: var(--bp-dark); }
+.brand__icon { width: 56px; height: 63px; flex-shrink: 0; display: flex; align-items: center; }
+.brand__icon svg { display: block; }
+.brand__text {
+  display: flex; flex-direction: column; gap: 3px; line-height: 1;
+}
+.brand__title {
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-size: 1.7rem; font-weight: 800;
+  color: var(--bp-dark); letter-spacing: -0.02em; line-height: 1;
+}
+.brand__subtitle {
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-size: 0.6rem; font-weight: 700;
+  color: var(--bp-yellow-h); letter-spacing: 0.22em;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 5px; line-height: 1;
+}
+.brand__subtitle::before,
+.brand__subtitle::after {
+  content: ''; display: block; width: 14px; height: 1px;
+  background: var(--bp-yellow-h); flex-shrink: 0;
+}
 
 /* Social icons in navbar */
 .navbar__social {
@@ -698,8 +716,11 @@ address { font-style: normal; }
   :root { --nav-h: 72px; }
 
   /* Navbar mobile */
-  .navbar__logo { min-width: unset; }
-  .navbar__logo-img { height: 56px; max-width: 180px; }
+  .brand { gap: 10px; }
+  .brand__icon { width: 44px; height: 50px; }
+  .brand__icon svg { width: 44px; height: 50px; }
+  .brand__title { font-size: 1.3rem; }
+  .brand__subtitle { font-size: 0.52rem; }
   .navbar__social { display: none; }
   .navbar__hamburger { display: flex; margin-left: auto; }
   .navbar__menu {
