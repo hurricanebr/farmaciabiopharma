@@ -212,8 +212,35 @@ address { font-style: normal; }
 }
 .hero__deco svg { width: 100%; height: 100%; }
 
-.hero__inner { position: relative; z-index: 1; }
-.hero__content { max-width: 640px; }
+.hero__inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 420px;
+  align-items: center; gap: 3rem;
+}
+.hero__content { }
+
+/* Hero photo */
+.hero__visual { position: relative; }
+.hero__photo-wrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 28px 64px rgba(0,0,0,.40);
+  border: 3px solid rgba(255,255,255,.18);
+}
+.hero__photo-img {
+  width: 100%; height: 480px;
+  object-fit: cover; object-position: 65% center; display: block;
+}
+.hero__photo-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: .4rem;
+  background: rgba(0,53,88,.80);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  color: rgba(255,255,255,.88); font-size: .78rem; font-weight: 600;
+  padding: .55rem 1rem;
+  border-top: 2px solid var(--bp-yellow);
+}
 
 /* Badges */
 .hero__badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; }
@@ -389,6 +416,30 @@ address { font-style: normal; }
 .why-card__desc { font-size: .9rem; color: var(--bp-text-mid); line-height: 1.55; }
 
 /* =============================================
+   GALERIA
+   ============================================= */
+.gallery { background: var(--bp-bg-light); padding: 80px 0; }
+.gallery__grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.gallery__item {
+  border-radius: var(--radius-md); overflow: hidden;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--bp-border);
+  aspect-ratio: 4 / 3; cursor: zoom-in;
+  transition: transform var(--tr), box-shadow var(--tr);
+}
+.gallery__item:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: var(--shadow-md);
+}
+.gallery__item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .4s ease;
+}
+.gallery__item:hover img { transform: scale(1.05); }
+
+/* =============================================
    LOCALIZAÇÃO
    ============================================= */
 .location {
@@ -407,7 +458,7 @@ address { font-style: normal; }
 
 /* Foto */
 .location__photo { margin-bottom: 1.25rem; border-radius: var(--radius-md); overflow: hidden; }
-.location__photo img { width: 100%; height: 200px; object-fit: cover; }
+.location__photo img { width: 100%; height: 280px; object-fit: cover; }
 .location__photo figcaption {
   font-size: .75rem; color: rgba(255,255,255,.5);
   padding: .45rem .25rem 0;
@@ -675,7 +726,8 @@ address { font-style: normal; }
 @media (max-width: 1024px) {
   .location__grid { grid-template-columns: 1fr; }
   .reviews__google-row { grid-template-columns: 1fr; }
-  .hero__deco { width: 300px; height: 300px; right: -60px; opacity: .5; }
+  .hero__inner { grid-template-columns: 1fr 340px; gap: 2rem; }
+  .hero__photo-img { height: 380px; }
 }
 
 @media (max-width: 768px) {
@@ -699,10 +751,14 @@ address { font-style: normal; }
 
   /* Hero */
   .hero { padding-top: calc(var(--nav-h) + 48px); padding-bottom: 72px; }
-  .hero__deco { display: none; }
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__visual { display: none; }
   .hero__title { font-size: clamp(1.6rem, 7vw, 2.2rem); }
   .hero__ctas { flex-direction: column; }
   .hero__ctas .btn { width: 100%; justify-content: center; }
+
+  /* Gallery */
+  .gallery__grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
 
   /* Consulte */
   .consulte__card { flex-direction: column; text-align: center; padding: 1.75rem 1.25rem; }
@@ -753,6 +809,7 @@ address { font-style: normal; }
 @media (max-width: 540px) {
   .services__grid { grid-template-columns: 1fr; }
   .why__grid      { grid-template-columns: 1fr; }
+  .gallery__grid  { grid-template-columns: 1fr; }
   .selos__inner   { flex-direction: column; align-items: flex-start; gap: .75rem; }
   .selos { padding: 24px 0; }
   .hours-section__head { flex-direction: column; text-align: center; gap: .5rem; }

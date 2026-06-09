@@ -99,7 +99,7 @@
       { "@type": "Question", "name": "Onde fica a Biopharma Farmácia?", "acceptedAnswer": { "@type": "Answer", "text": "Estamos na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre/RS." } },
       { "@type": "Question", "name": "Qual é o horário de funcionamento?", "acceptedAnswer": { "@type": "Answer", "text": "Atendemos de segunda a sexta das 09h às 20h e aos sábados das 09h às 18h. Domingos e feriados, fechado." } },
       { "@type": "Question", "name": "Posso consultar se um medicamento está disponível?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade." } },
-      { "@type": "Question", "name": "Vocês fazem aplicação de injetáveis?", "acceptedAnswer": { "@type": "Answer", "text": "No momento não realizamos esse serviço. Consulte a farmácia pelo WhatsApp para confirmar os serviços disponíveis." } }
+      { "@type": "Question", "name": "Vocês fazem aplicação de injetáveis?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, realizamos aplicação de injetáveis. Entre em contato pelo WhatsApp para agendar ou confirmar a disponibilidade." } }
     ]
   }
   </script>
@@ -153,14 +153,6 @@
 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <div class="hero__deco" aria-hidden="true">
-        <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M115 40 h70 v75 h75 v70 h-75 v75 h-70 v-75 h-75 v-70 h75 Z" fill="rgba(255,255,255,0.06)"/>
-          <path d="M168 118 C200 82 215 140 188 162 C165 178 148 155 168 118 Z" fill="rgba(255,213,4,0.10)"/>
-          <path d="M125 122 C98 100 94 140 114 152 C130 160 138 138 125 122 Z" fill="rgba(255,255,255,0.06)"/>
-        </svg>
-      </div>
-
       <div class="hero__inner container">
         <div class="hero__content">
           <div class="hero__badges">
@@ -207,6 +199,19 @@
             </span>
           </p>
         </div>
+
+        <div class="hero__visual">
+          <div class="hero__photo-wrap">
+            <img src="fachada.jpg"
+                 alt="Fachada da Biopharma Farmácia — Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre"
+                 class="hero__photo-img" loading="eager" width="460" height="520">
+            <div class="hero__photo-caption">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+              Centro Histórico · Porto Alegre
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="hero__stripe" aria-hidden="true"></div>
@@ -344,6 +349,31 @@
       </div>
     </section>
 
+    <!-- ===================== GALERIA ===================== -->
+    <section class="gallery" id="galeria" aria-labelledby="gallery-title">
+      <div class="container">
+        <h2 class="section-title" id="gallery-title">Conheça nossa farmácia</h2>
+        <p class="section-subtitle">Um espaço organizado e acolhedor no Centro Histórico de Porto Alegre.</p>
+        <div class="gallery__grid">
+          <figure class="gallery__item">
+            <img src="IMG_2295.jpeg"
+                 alt="Interior da Biopharma Farmácia — produtos organizados nas prateleiras"
+                 loading="lazy" width="560" height="420">
+          </figure>
+          <figure class="gallery__item">
+            <img src="IMG_2296.jpeg"
+                 alt="Produtos de higiene e beleza disponíveis na Biopharma Farmácia"
+                 loading="lazy" width="560" height="420">
+          </figure>
+          <figure class="gallery__item">
+            <img src="IMG_2297.jpeg"
+                 alt="Ambiente interno da Biopharma Farmácia no Centro de Porto Alegre"
+                 loading="lazy" width="560" height="420">
+          </figure>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== LOCALIZAÇÃO ===================== -->
     <section class="location" id="localizacao" aria-labelledby="location-title">
       <div class="container">
@@ -362,7 +392,7 @@
             <figure class="location__photo">
               <img src="fachada.jpg"
                    alt="Fachada da Biopharma Farmácia na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre."
-                   loading="lazy" width="560" height="280">
+                   loading="lazy" width="560" height="320">
               <figcaption>Fachada da Biopharma Farmácia — Av. Des. André da Rocha, 328</figcaption>
             </figure>
             <div class="location__card">
@@ -374,7 +404,7 @@
                 <span class="info-item__dot" aria-hidden="true"></span>
                 <div><strong>WhatsApp e Telefone</strong><p>
                   <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto." data-event="click_whatsapp_location" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">+55 51 99469-7388</a><br/>
-                  <a href="tel:+555132268979" data-event="click_phone" aria-label="Ligar">(51) 3226-8979</a>
+                  <a href="tel:+555130138970" data-event="click_phone" aria-label="Ligar">(51) 3013-8970</a>
                 </p></div>
               </div>
               <div class="info-item">
@@ -502,7 +532,7 @@
           <details class="faq__item"><summary class="faq__q">Onde fica a Biopharma Farmácia?</summary><div class="faq__a"><p>Estamos na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre/RS.</p></div></details>
           <details class="faq__item"><summary class="faq__q">Qual é o horário de funcionamento?</summary><div class="faq__a"><p>Atendemos de segunda a sexta das 09h às 20h e aos sábados das 09h às 18h. Domingos e feriados, fechado.</p></div></details>
           <details class="faq__item"><summary class="faq__q">Posso consultar se um medicamento está disponível?</summary><div class="faq__a"><p>Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade.</p></div></details>
-          <details class="faq__item"><summary class="faq__q">Vocês fazem aplicação de injetáveis?</summary><div class="faq__a"><p>No momento não realizamos esse serviço. Consulte a farmácia pelo WhatsApp para confirmar os serviços disponíveis.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Vocês fazem aplicação de injetáveis?</summary><div class="faq__a"><p>Sim, realizamos aplicação de injetáveis. Entre em contato pelo WhatsApp para agendar ou confirmar a disponibilidade.</p></div></details>
         </div>
       </div>
     </section>
@@ -554,7 +584,7 @@
         Av. Des. André da Rocha, 328 — Centro Histórico, Porto Alegre/RS — CEP 90050-160<br/>
         WhatsApp: <a href="https://wa.me/5551994697388?text=Ol%C3%A1%2C%20gostaria%20de%20consultar%20a%20disponibilidade%20de%20um%20medicamento%2Fproduto." data-event="click_whatsapp_footer" target="_blank" rel="noopener noreferrer">+55 51 99469-7388</a>
         &nbsp;·&nbsp;
-        Telefone: <a href="tel:+555132268979" data-event="click_phone">(51) 3226-8979</a><br/>
+        Telefone: <a href="tel:+555130138970" data-event="click_phone">(51) 3013-8970</a><br/>
         Seg–Sex: 09h às 20h · Sábado: 09h às 18h · Domingos e feriados: fechado
       </address>
 
