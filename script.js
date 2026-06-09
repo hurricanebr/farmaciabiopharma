@@ -110,6 +110,53 @@
   });
 })();
 
+/* ---------- Lightbox para galeria ---------- */
+(function () {
+  const dialog = document.getElementById('lightbox');
+  const img    = document.getElementById('lightboxImg');
+  const close  = document.getElementById('lightboxClose');
+  const prev   = document.getElementById('lightboxPrev');
+  const next   = document.getElementById('lightboxNext');
+  if (!dialog || !img) return;
+
+  const items = Array.from(document.querySelectorAll('.gallery__item img'));
+  let current = 0;
+
+  const show = (index) => {
+    current = index;
+    img.src = items[current].src;
+    img.alt = items[current].alt;
+    prev.disabled = current === 0;
+    next.disabled = current === items.length - 1;
+  };
+
+  document.querySelectorAll('.gallery__item').forEach((item, i) => {
+    item.addEventListener('click', () => {
+      show(i);
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  prev.addEventListener('click', () => { if (current > 0) show(current - 1); });
+  next.addEventListener('click', () => { if (current < items.length - 1) show(current + 1); });
+
+  /* teclado: setas esquerda/direita */
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft'  && current > 0)               show(current - 1);
+    if (e.key === 'ArrowRight' && current < items.length - 1) show(current + 1);
+  });
+
+  const closeLightbox = () => {
+    dialog.close();
+    document.body.style.overflow = '';
+  };
+
+  close.addEventListener('click', closeLightbox);
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) closeLightbox(); });
+  dialog.addEventListener('close', () => { document.body.style.overflow = ''; });
+})();
+
 /* ---------- Intersection observer: fade-in on scroll ---------- */
 (function () {
   const style = document.createElement('style');
