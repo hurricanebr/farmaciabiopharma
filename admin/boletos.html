@@ -18,12 +18,43 @@
       <ul class="navbar__menu">
         <li><a href="/admin/dashboard" class="nav-link">Dashboard</a></li>
         <li><a href="/admin/boletos" class="nav-link active">Boletos</a></li>
+        <li><a href="/admin/vendas" class="nav-link">Vendas</a></li>
         <li class="navbar__menu-cta">
           <button class="btn-signout" onclick="signOut()">Sair</button>
         </li>
       </ul>
     </div>
   </nav>
+
+  <!-- Modal de edição -->
+  <div id="editModal" style="display:none;position:fixed;inset:0;background:rgba(0,53,88,.45);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:480px;box-shadow:0 20px 50px rgba(0,53,88,.25);">
+      <h2 style="font-size:1.2rem;font-weight:700;color:#003558;margin-bottom:24px;">Editar Boleto</h2>
+      <input type="hidden" id="editId" />
+      <div class="form-group">
+        <label for="editFornecedor">Fornecedor</label>
+        <input type="text" id="editFornecedor" required />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editValor">Valor (R$)</label>
+          <input type="number" id="editValor" step="0.01" min="0" required />
+        </div>
+        <div class="form-group">
+          <label for="editVencimento">Vencimento</label>
+          <input type="date" id="editVencimento" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editDescricao">Descrição</label>
+        <input type="text" id="editDescricao" />
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-blue" onclick="salvarEdicao()">Salvar</button>
+      </div>
+    </div>
+  </div>
 
   <div class="page">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -35,12 +66,13 @@
       <button class="filter-btn" onclick="setFilter('today',this)">Hoje</button>
       <button class="filter-btn" onclick="setFilter('week',this)">Esta semana</button>
       <button class="filter-btn active" onclick="setFilter('month',this)">Este mês</button>
+      <button class="filter-btn" onclick="setFilter('all',this)">Todos</button>
       <button class="filter-btn" onclick="setFilter('custom',this)">Personalizado</button>
       <div class="filter-custom-group" id="customGroup">
         <input type="date" id="customStart" />
         <span>até</span>
         <input type="date" id="customEnd" />
-        <button class="btn btn-primary btn-sm" onclick="applyCustomFilter()">Aplicar</button>
+        <button class="btn btn-blue btn-sm" onclick="applyCustomFilter()">Aplicar</button>
       </div>
     </div>
 
@@ -68,6 +100,7 @@
   <script src="/admin/admin.js"></script>
   <script>
     let currentFilter = 'month';
+    let allBoletos = [];
 
     async function init() {
       await requireAuth();
@@ -92,30 +125,45 @@
     }
 
     async function loadBoletos(customStart, customEnd) {
-      const range = getDateRange(currentFilter, customStart, customEnd);
-      const { data, error } = await db.from('boletos').select('*').gte('vencimento', range.start).lte('vencimento', range.end).order('vencimento');
+      let query = db.from('boletos').select('*').order('vencimento');
+      if (currentFilter !== 'all') {
+        const range = getDateRange(currentFilter, customStart, customEnd);
+        query = query.gte('vencimento', range.start).lte('vencimento', range.end);
+      }
+      const { data, error } = await query;
       const tbody = document.getElementById('boletosTableBody');
       if (error || !data || !data.length) {
         tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum boleto encontrado.</td></tr>';
         return;
       }
+      allBoletos = data;
+      renderTable(data);
+    }
+
+    function renderTable(data) {
       const today = todayISO();
+      const tbody = document.getElementById('boletosTableBody');
       tbody.innerHTML = data.map(b => {
         const badgeClass = b.pago_em ? 'pago' : (b.vencimento < today ? 'vencido' : 'pendente');
         const badgeLabel = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
-        const acoes = b.pago_em
-          ? `<span style="color:#94a3b8;font-size:.8rem;">Pago em ${formatDateBR(b.pago_em)}</span>`
+        const pagoBtn = b.pago_em
+          ? `<span style="color:#94a3b8;font-size:.8rem;">Pago ${formatDateBR(b.pago_em)}</span>`
           : `<button class="btn-pago" onclick="marcarPago('${b.id}',this)">PAGO</button>`;
         const imgBtn = b.url_imagem
-          ? `<a href="${b.url_imagem}" target="_blank" class="btn btn-secondary btn-sm" style="margin-left:6px;">Ver boleto</a>`
+          ? `<a href="${b.url_imagem}" target="_blank" class="btn btn-secondary btn-sm">Ver</a>`
           : '';
         return `<tr>
           <td>${b.fornecedor}</td>
           <td>${formatCurrency(b.valor)}</td>
           <td>${formatDateBR(b.vencimento)}</td>
           <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
-          <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${b.descricao || ''}">${b.descricao || '—'}</td>
-          <td>${acoes}${imgBtn}</td>
+          <td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${b.descricao || ''}">${b.descricao || '—'}</td>
+          <td style="white-space:nowrap;display:flex;gap:6px;align-items:center;">
+            ${pagoBtn}
+            ${imgBtn}
+            <button class="btn btn-secondary btn-sm" onclick="abrirEdicao('${b.id}')">Editar</button>
+            <button class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border:none;" onclick="excluirBoleto('${b.id}','${b.fornecedor.replace(/'/g,"\\'")}')">Excluir</button>
+          </td>
         </tr>`;
       }).join('');
     }
@@ -124,14 +172,50 @@
       btn.textContent = 'Salvando...';
       btn.disabled = true;
       const { error } = await db.from('boletos').update({ pago_em: todayISO() }).eq('id', id);
-      if (error) {
-        alert('Erro ao salvar. Tente novamente.');
-        btn.textContent = 'PAGO';
-        btn.disabled = false;
-        return;
-      }
+      if (error) { alert('Erro ao salvar. Tente novamente.'); btn.textContent = 'PAGO'; btn.disabled = false; return; }
       await loadBoletos();
     }
+
+    function abrirEdicao(id) {
+      const b = allBoletos.find(x => x.id === id);
+      if (!b) return;
+      document.getElementById('editId').value = b.id;
+      document.getElementById('editFornecedor').value = b.fornecedor;
+      document.getElementById('editValor').value = b.valor;
+      document.getElementById('editVencimento').value = b.vencimento;
+      document.getElementById('editDescricao').value = b.descricao || '';
+      const modal = document.getElementById('editModal');
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+    }
+
+    async function salvarEdicao() {
+      const id = document.getElementById('editId').value;
+      const fornecedor = document.getElementById('editFornecedor').value.trim();
+      const valor = parseFloat(document.getElementById('editValor').value);
+      const vencimento = document.getElementById('editVencimento').value;
+      const descricao = document.getElementById('editDescricao').value.trim();
+      if (!fornecedor || !valor || !vencimento) { alert('Preencha todos os campos obrigatórios.'); return; }
+      const { error } = await db.from('boletos').update({ fornecedor, valor, vencimento, descricao }).eq('id', id);
+      if (error) { alert('Erro ao salvar. Tente novamente.'); return; }
+      closeModal();
+      await loadBoletos();
+    }
+
+    async function excluirBoleto(id, fornecedor) {
+      if (!confirm(`Excluir o boleto de "${fornecedor}"?\n\nEssa ação não pode ser desfeita.`)) return;
+      const { error } = await db.from('boletos').delete().eq('id', id);
+      if (error) { alert('Erro ao excluir. Tente novamente.'); return; }
+      await loadBoletos();
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById('editModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
 
     init();
   </script>

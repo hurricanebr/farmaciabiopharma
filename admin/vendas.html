@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendas — Biopharma Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/api/get-config"></script>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="/admin/dashboard" class="brand" aria-label="Biopharma Admin">
+        <img src="/banner_site.png" alt="Biopharma Farmácia" class="brand__img">
+      </a>
+      <ul class="navbar__menu">
+        <li><a href="/admin/dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="/admin/boletos" class="nav-link">Boletos</a></li>
+        <li><a href="/admin/vendas" class="nav-link active">Vendas</a></li>
+        <li class="navbar__menu-cta">
+          <button class="btn-signout" onclick="signOut()">Sair</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Modal de edição -->
+  <div id="editModal" style="display:none;position:fixed;inset:0;background:rgba(0,53,88,.45);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#fff;border-radius:16px;padding:32px;width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,53,88,.25);">
+      <h2 style="font-size:1.2rem;font-weight:700;color:#003558;margin-bottom:24px;">Editar Venda</h2>
+      <input type="hidden" id="editId" />
+      <div class="form-group">
+        <label for="editValor">Valor total (R$)</label>
+        <input type="number" id="editValor" step="0.01" min="0" required />
+      </div>
+      <div class="form-group">
+        <label for="editData">Data</label>
+        <input type="date" id="editData" required />
+      </div>
+      <div class="form-group">
+        <label for="editObs">Observação</label>
+        <input type="text" id="editObs" />
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+        <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-blue" onclick="salvarEdicao()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h1 class="page-title" style="margin-bottom:0">Vendas</h1>
+      <a href="/admin/vendas/nova" class="btn btn-success">+ Registrar Venda</a>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn" onclick="setFilter('today',this)">Hoje</button>
+      <button class="filter-btn" onclick="setFilter('week',this)">Esta semana</button>
+      <button class="filter-btn active" onclick="setFilter('month',this)">Este mês</button>
+      <button class="filter-btn" onclick="setFilter('all',this)">Todas</button>
+      <button class="filter-btn" onclick="setFilter('custom',this)">Personalizado</button>
+      <div class="filter-custom-group" id="customGroup">
+        <input type="date" id="customStart" />
+        <span>até</span>
+        <input type="date" id="customEnd" />
+        <button class="btn btn-blue btn-sm" onclick="applyCustomFilter()">Aplicar</button>
+      </div>
+    </div>
+
+    <!-- Total do período -->
+    <div class="summary-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin-bottom:20px;">
+      <div class="summary-card blue">
+        <div class="label">Total do período</div>
+        <div class="value" id="totalPeriodo">—</div>
+      </div>
+      <div class="summary-card" style="border:1px solid #e2e8f0;">
+        <div class="label">Nº de registros</div>
+        <div class="value" id="totalRegistros" style="color:#003558;">—</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Valor</th>
+              <th>Observação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="vendasTableBody">
+            <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin.js"></script>
+  <script>
+    let currentFilter = 'month';
+    let allVendas = [];
+
+    async function init() {
+      await requireAuth();
+      await loadVendas();
+    }
+
+    function setFilter(period, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = period;
+      const customGroup = document.getElementById('customGroup');
+      if (period === 'custom') { customGroup.classList.add('visible'); return; }
+      customGroup.classList.remove('visible');
+      loadVendas();
+    }
+
+    function applyCustomFilter() {
+      const start = document.getElementById('customStart').value;
+      const end = document.getElementById('customEnd').value;
+      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      loadVendas(start, end);
+    }
+
+    async function loadVendas(customStart, customEnd) {
+      let query = db.from('vendas').select('*').order('data', { ascending: false });
+      if (currentFilter !== 'all') {
+        const range = getDateRange(currentFilter, customStart, customEnd);
+        query = query.gte('data', range.start).lte('data', range.end);
+      }
+      const { data, error } = await query;
+      const tbody = document.getElementById('vendasTableBody');
+      if (error || !data || !data.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:32px;">Nenhuma venda encontrada.</td></tr>';
+        document.getElementById('totalPeriodo').textContent = formatCurrency(0);
+        document.getElementById('totalRegistros').textContent = '0';
+        return;
+      }
+      allVendas = data;
+      const total = data.reduce((s, v) => s + Number(v.valor), 0);
+      document.getElementById('totalPeriodo').textContent = formatCurrency(total);
+      document.getElementById('totalRegistros').textContent = data.length;
+      tbody.innerHTML = data.map(v => `<tr>
+        <td>${formatDateBR(v.data)}</td>
+        <td>${formatCurrency(v.valor)}</td>
+        <td style="color:#595959;">${v.observacao || '—'}</td>
+        <td style="white-space:nowrap;display:flex;gap:6px;">
+          <button class="btn btn-secondary btn-sm" onclick="abrirEdicao('${v.id}')">Editar</button>
+          <button class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border:none;" onclick="excluirVenda('${v.id}','${formatDateBR(v.data)}')">Excluir</button>
+        </td>
+      </tr>`).join('');
+    }
+
+    function abrirEdicao(id) {
+      const v = allVendas.find(x => x.id === id);
+      if (!v) return;
+      document.getElementById('editId').value = v.id;
+      document.getElementById('editValor').value = v.valor;
+      document.getElementById('editData').value = v.data;
+      document.getElementById('editObs').value = v.observacao || '';
+      const modal = document.getElementById('editModal');
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').style.display = 'none';
+    }
+
+    async function salvarEdicao() {
+      const id = document.getElementById('editId').value;
+      const valor = parseFloat(document.getElementById('editValor').value);
+      const data = document.getElementById('editData').value;
+      const observacao = document.getElementById('editObs').value.trim();
+      if (!valor || !data) { alert('Preencha valor e data.'); return; }
+      const { error } = await db.from('vendas').update({ valor, data, observacao }).eq('id', id);
+      if (error) { alert('Erro ao salvar. Tente novamente.'); return; }
+      closeModal();
+      await loadVendas();
+    }
+
+    async function excluirVenda(id, dataFormatada) {
+      if (!confirm(`Excluir a venda do dia ${dataFormatada}?\n\nEssa ação não pode ser desfeita.`)) return;
+      const { error } = await db.from('vendas').delete().eq('id', id);
+      if (error) { alert('Erro ao excluir. Tente novamente.'); return; }
+      await loadVendas();
+    }
+
+    document.getElementById('editModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    init();
+  </script>
+</body>
+</html>
