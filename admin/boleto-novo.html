@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novo Boleto — Biopharma Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/admin/config.js"></script>
+</head>
+<body>
+  <nav class="topbar">
+    <span class="topbar-logo">Biopharma Admin</span>
+    <div class="topbar-nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/boletos" class="active">Boletos</a>
+    </div>
+    <button class="btn-signout" onclick="signOut()">Sair</button>
+  </nav>
+
+  <div class="page">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+      <a href="/admin/boletos" style="color:#64748b;text-decoration:none;font-size:.875rem;">← Voltar</a>
+      <h1 class="page-title" style="margin-bottom:0">Novo Boleto</h1>
+    </div>
+
+    <div class="form-card">
+      <label class="upload-area" for="boletoFile">
+        <input type="file" id="boletoFile" accept="image/jpeg,image/png,image/webp" />
+        <div class="upload-icon">📎</div>
+        <p>Toque para fotografar ou escolher imagem</p>
+        <small>O sistema vai ler os dados automaticamente · JPEG, PNG ou WebP</small>
+      </label>
+      <img id="uploadPreview" class="upload-preview" style="display:none;" alt="Preview do boleto" />
+
+      <div class="ocr-loading" id="ocrLoading">⚡ Lendo boleto... aguarde</div>
+
+      <div id="formFields" style="display:none;">
+        <div class="form-group">
+          <label>Fornecedor <span class="ocr-hint" id="hintFornecedor"></span></label>
+          <input type="text" id="fornecedor" placeholder="Nome da distribuidora" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Valor (R$) <span class="ocr-hint" id="hintValor"></span></label>
+            <input type="number" id="valor" step="0.01" min="0.01" placeholder="0,00" required />
+          </div>
+          <div class="form-group">
+            <label>Vencimento <span class="ocr-hint" id="hintVencimento"></span></label>
+            <input type="date" id="vencimento" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descrição — medicamentos pedidos</label>
+          <textarea id="descricao" placeholder="Ex: Dipirona 500mg cx50, Amoxicilina 500mg, ..."></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%;padding:12px;" onclick="salvarBoleto()" id="saveBtn">
+          SALVAR BOLETO
+        </button>
+      </div>
+
+      <div id="manualEntry" style="text-align:center;margin-top:12px;display:none;">
+        <button class="btn btn-secondary btn-sm" onclick="showFormManual()">Preencher manualmente</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin.js"></script>
+  <script>
+    let selectedFile = null;
+
+    async function init() {
+      await requireAuth();
+    }
+
+    document.getElementById('boletoFile').addEventListener('change', function() {
+      selectedFile = this.files[0];
+      if (!selectedFile) return;
+
+      if (selectedFile.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const preview = document.getElementById('uploadPreview');
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(selectedFile);
+      }
+
+      runOCR(selectedFile);
+    });
+
+    async function runOCR(file) {
+      document.getElementById('ocrLoading').classList.add('visible');
+      document.getElementById('manualEntry').style.display = 'none';
+      document.getElementById('formFields').style.display = 'none';
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64 = e.target.result.split(',')[1];
+        try {
+          const resp = await fetch('/api/ocr-boleto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: base64, mimeType: file.type })
+          });
+          const data = await resp.json();
+          fillForm(data);
+        } catch {
+          fillForm({ fornecedor: null, valor: null, vencimento: null });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function fillForm({ fornecedor, valor, vencimento }) {
+      document.getElementById('ocrLoading').classList.remove('visible');
+
+      if (fornecedor) {
+        document.getElementById('fornecedor').value = fornecedor;
+        document.getElementById('hintFornecedor').textContent = '✦ lido automaticamente';
+      }
+      if (valor) {
+        document.getElementById('valor').value = parseFloat(valor).toFixed(2);
+        document.getElementById('hintValor').textContent = '✦ lido automaticamente';
+      }
+      if (vencimento) {
+        document.getElementById('vencimento').value = vencimento;
+        document.getElementById('hintVencimento').textContent = '✦ lido automaticamente';
+      }
+
+      document.getElementById('formFields').style.display = 'block';
+      document.getElementById('manualEntry').style.display = fornecedor && valor && vencimento ? 'none' : 'block';
+    }
+
+    function showFormManual() {
+      document.getElementById('formFields').style.display = 'block';
+      document.getElementById('manualEntry').style.display = 'none';
+    }
+
+    async function salvarBoleto() {
+      const fornecedor = document.getElementById('fornecedor').value.trim();
+      const valor = document.getElementById('valor').value;
+      const vencimento = document.getElementById('vencimento').value;
+      const descricao = document.getElementById('descricao').value.trim();
+
+      if (!fornecedor || !valor || !vencimento) {
+        alert('Preencha fornecedor, valor e vencimento.');
+        return;
+      }
+
+      const btn = document.getElementById('saveBtn');
+      btn.textContent = 'Salvando...';
+      btn.disabled = true;
+
+      let url_imagem = null;
+
+      if (selectedFile) {
+        const fileName = `${Date.now()}-boleto.${selectedFile.name.split('.').pop()}`;
+        const { data: uploadData, error: uploadError } = await db.storage
+          .from('boletos-imagens')
+          .upload(fileName, selectedFile, { contentType: selectedFile.type });
+
+        if (!uploadError && uploadData) {
+          const { data: { publicUrl } } = db.storage.from('boletos-imagens').getPublicUrl(uploadData.path);
+          url_imagem = publicUrl;
+        }
+      }
+
+      const { error } = await db.from('boletos').insert({
+        fornecedor,
+        valor: parseFloat(valor),
+        vencimento,
+        descricao: descricao || null,
+        url_imagem
+      });
+
+      if (error) {
+        alert('Erro ao salvar boleto. Tente novamente.');
+        btn.textContent = 'SALVAR BOLETO';
+        btn.disabled = false;
+        return;
+      }
+
+      window.location.href = '/admin/boletos';
+    }
+
+    init();
+  </script>
+</body>
+</html>
