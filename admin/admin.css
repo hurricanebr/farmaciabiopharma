@@ -519,3 +519,42 @@ tr:hover td { background: rgba(0,123,182,.03); }
    CHART
    ============================================= */
 .chart-container { position: relative; height: 120px; }
+
+/* =============================================
+   MOBILE — sem scroll horizontal na página
+   ============================================= */
+@media (max-width: 768px) {
+  /* Navbar: logo em cima, links roláveis embaixo */
+  .navbar { height: auto; }
+
+  .navbar__inner {
+    flex-wrap: wrap;
+    padding-block: 10px;
+    gap: 0;
+  }
+
+  .brand { flex: 1; }
+
+  .navbar__menu {
+    width: 100%;
+    margin-left: 0;
+    padding-bottom: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .navbar__menu::-webkit-scrollbar { display: none; }
+
+  .navbar__menu-cta { margin-left: auto; }
+
+  /* Filter bar com datas: permite quebrar linha */
+  .filter-custom-group.visible {
+    flex-wrap: wrap;
+  }
+  .filter-custom-group input[type="date"] {
+    min-width: 0;
+    flex: 1 1 120px;
+  }
+}
