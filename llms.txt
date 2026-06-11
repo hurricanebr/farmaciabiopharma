@@ -1,0 +1,42 @@
+# Biopharma Farmácia
+
+> Farmácia localizada no Centro Histórico de Porto Alegre, Rio Grande do Sul, Brasil.
+
+## O que somos
+
+Biopharma Farmácia é uma farmácia de bairro no coração do Centro Histórico de Porto Alegre (Av. Des. André da Rocha, 328). Atendemos moradores e trabalhadores da região com medicamentos, produtos de higiene, beleza e cuidados pessoais.
+
+## Diferenciais
+
+- Atendimento e consulta de disponibilidade de medicamentos pelo WhatsApp antes de ir até a loja
+- Aplicação de injetáveis (agendamento via WhatsApp)
+- Retirada na loja
+- Localização central no Centro Histórico, próxima ao Viaduto Otávio Rocha
+
+## Horários de funcionamento
+
+- Segunda a sexta: 09h às 20h
+- Sábado: 09h às 18h
+- Domingos e feriados: fechado
+
+## Contato e localização
+
+- Endereço: Av. Des. André da Rocha, 328 — Centro Histórico, Porto Alegre/RS — CEP 90050-160
+- WhatsApp: +55 51 99469-7388
+- Instagram: https://www.instagram.com/farmaciabiopharmapoa/
+- Facebook: https://web.facebook.com/profile.php?id=61590625889611
+- Site: https://farmaciabiopharma.vercel.app/
+
+## Produtos
+
+Medicamentos (tarjados e isentos), produtos de higiene pessoal, cosméticos, produtos de beleza, suplementos, fraldas, itens de cuidados diários.
+
+## Serviços
+
+- Consulta de disponibilidade de medicamentos via WhatsApp
+- Aplicação de medicamentos injetáveis (com agendamento)
+- Retirada de pedidos na loja
+
+## Área de atendimento
+
+Centro Histórico de Porto Alegre, RS — atendemos clientes da região central, incluindo bairros adjacentes.

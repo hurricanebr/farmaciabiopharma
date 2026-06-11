@@ -1,0 +1,11 @@
+{
+  "name": "biopharma-posts",
+  "version": "1.0.0",
+  "description": "Gerador automático de posts para Instagram/Facebook",
+  "scripts": {
+    "generate": "node generate.js"
+  },
+  "dependencies": {
+    "playwright": "^1.44.0"
+  }
+}
