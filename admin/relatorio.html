@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório — Biopharma Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/api/get-config"></script>
+
+  <style>
+    /* ── Relatório ── */
+    .report-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .report-period {
+      font-size: .95rem;
+      color: var(--bp-text-mid);
+      font-weight: 500;
+    }
+    .report-section { margin-bottom: 32px; }
+    .report-section-title {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--bp-text-mid);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--bp-bg-light);
+    }
+    .report-empty {
+      color: var(--bp-text-mid);
+      font-size: .875rem;
+      padding: 12px 0;
+    }
+
+    /* ── Print ── */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; }
+      .navbar { display: none !important; }
+      .page { padding: 0 !important; max-width: 100% !important; }
+      .print-header {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        border-bottom: 2px solid #003558;
+        padding-bottom: 14px;
+      }
+      .print-header img { height: 44px; }
+      .print-header-info { text-align: right; font-size: .8rem; color: #595959; }
+      .summary-card { box-shadow: none !important; border: 1px solid #ddd !important; }
+      .panel { box-shadow: none !important; border: 1px solid #ddd !important; }
+      table { font-size: .8rem; }
+      th, td { padding: 7px 10px !important; }
+      .badge { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .report-footer {
+        display: block !important;
+        margin-top: 40px;
+        padding-top: 12px;
+        border-top: 1px solid #ddd;
+        font-size: .75rem;
+        color: #888;
+        text-align: center;
+      }
+    }
+    @media screen {
+      .print-header { display: none; }
+      .report-footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar no-print" id="navbar">
+    <div class="navbar__inner">
+      <a href="/admin/dashboard" class="brand" aria-label="Biopharma Admin">
+        <img src="/banner_site.png" alt="Biopharma Farmácia" class="brand__img">
+      </a>
+      <ul class="navbar__menu">
+        <li><a href="/admin/dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="/admin/boletos" class="nav-link">Boletos</a></li>
+        <li><a href="/admin/vendas" class="nav-link">Vendas</a></li>
+        <li><a href="/admin/relatorio" class="nav-link active">Relatório</a></li>
+        <li class="navbar__menu-cta">
+          <button class="btn-signout" onclick="signOut()">Sair</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Cabeçalho visível só no PDF -->
+    <div class="print-header">
+      <img src="/banner_site.png" alt="Biopharma Farmácia">
+      <div class="print-header-info">
+        <div id="printPeriodLabel" style="font-size:.9rem;font-weight:700;color:#003558;"></div>
+        <div id="printDate"></div>
+        <div>Biopharma Farmácia · Porto Alegre/RS</div>
+      </div>
+    </div>
+
+    <!-- Controles (só na tela) -->
+    <div class="no-print report-header">
+      <h1 class="page-title" style="margin-bottom:0">Relatório</h1>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btn-blue" onclick="gerarPDF()">⬇ Salvar como PDF</button>
+      </div>
+    </div>
+
+    <div class="filter-bar no-print">
+      <button class="filter-btn" onclick="setFilter('today',this)">Hoje</button>
+      <button class="filter-btn" onclick="setFilter('week',this)">Esta semana</button>
+      <button class="filter-btn active" onclick="setFilter('month',this)">Este mês</button>
+      <button class="filter-btn" onclick="setFilter('custom',this)">Personalizado</button>
+      <div class="filter-custom-group" id="customGroup">
+        <input type="date" id="customStart" />
+        <span>até</span>
+        <input type="date" id="customEnd" />
+        <button class="btn btn-blue btn-sm" onclick="applyCustomFilter()">Aplicar</button>
+      </div>
+    </div>
+
+    <!-- Período visível na tela -->
+    <p class="report-period no-print" id="screenPeriodLabel" style="margin-bottom:20px;"></p>
+
+    <!-- Carregando -->
+    <div id="loadingMsg" style="text-align:center;padding:48px;color:var(--bp-text-mid);">Carregando...</div>
+
+    <!-- Conteúdo do relatório -->
+    <div id="reportContent" style="display:none;">
+
+      <!-- Resumo -->
+      <div class="report-section">
+        <div class="report-section-title">Resumo do período</div>
+        <div class="summary-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+          <div class="summary-card blue">
+            <div class="label">Vendas</div>
+            <div class="value" id="rVendas">—</div>
+          </div>
+          <div class="summary-card red">
+            <div class="label">Boletos pagos</div>
+            <div class="value" id="rGastos">—</div>
+          </div>
+          <div class="summary-card" id="rSaldoCard">
+            <div class="label">Saldo</div>
+            <div class="value" id="rSaldo">—</div>
+          </div>
+          <div class="summary-card" style="border:1px solid #e2e8f0;">
+            <div class="label">Boletos pendentes</div>
+            <div class="value" id="rPendentes" style="color:#92400e;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vendas -->
+      <div class="report-section">
+        <div class="report-section-title">Vendas no período</div>
+        <div class="panel" id="vendasPanel"></div>
+      </div>
+
+      <!-- Boletos -->
+      <div class="report-section">
+        <div class="report-section-title">Boletos no período</div>
+        <div class="panel" id="boletosPanel"></div>
+      </div>
+
+    </div>
+
+    <!-- Rodapé só no PDF -->
+    <div class="report-footer" id="reportFooter">
+      Relatório gerado pelo sistema Biopharma Admin · <span id="printDateFooter"></span>
+    </div>
+
+  </div>
+
+  <script src="/admin/admin.js"></script>
+  <script>
+    let currentFilter = 'month';
+    let currentCustomStart = null;
+    let currentCustomEnd = null;
+
+    const PERIOD_LABELS = {
+      today: 'Hoje',
+      week:  'Esta semana',
+      month: 'Este mês',
+    };
+
+    async function init() {
+      await requireAuth();
+      await loadReport();
+    }
+
+    function setFilter(period, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = period;
+      currentCustomStart = null;
+      currentCustomEnd = null;
+      const customGroup = document.getElementById('customGroup');
+      if (period === 'custom') { customGroup.classList.add('visible'); return; }
+      customGroup.classList.remove('visible');
+      loadReport();
+    }
+
+    function applyCustomFilter() {
+      const start = document.getElementById('customStart').value;
+      const end = document.getElementById('customEnd').value;
+      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      currentCustomStart = start;
+      currentCustomEnd = end;
+      loadReport(start, end);
+    }
+
+    function periodLabel(range) {
+      if (currentFilter === 'custom') {
+        return `${formatDateBR(range.start)} até ${formatDateBR(range.end)}`;
+      }
+      return PERIOD_LABELS[currentFilter] || 'Este mês';
+    }
+
+    async function loadReport(customStart, customEnd) {
+      document.getElementById('loadingMsg').style.display = 'block';
+      document.getElementById('reportContent').style.display = 'none';
+
+      const range = getDateRange(currentFilter, customStart, customEnd);
+      const label = periodLabel(range);
+
+      document.getElementById('screenPeriodLabel').textContent = `Período: ${label} (${formatDateBR(range.start)} – ${formatDateBR(range.end)})`;
+      document.getElementById('printPeriodLabel').textContent = `Período: ${label}`;
+
+      const now = new Date();
+      const nowStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('printDate').textContent = `Gerado em: ${nowStr}`;
+      document.getElementById('printDateFooter').textContent = nowStr;
+
+      const today = todayISO();
+
+      const [{ data: vendas }, { data: boletos }] = await Promise.all([
+        db.from('vendas').select('*').gte('data', range.start).lte('data', range.end).order('data', { ascending: false }),
+        db.from('boletos').select('*').gte('vencimento', range.start).lte('vencimento', range.end).order('vencimento'),
+      ]);
+
+      // Resumo
+      const totalVendas = (vendas || []).reduce((s, v) => s + Number(v.valor), 0);
+      const boletosPagos = (boletos || []).filter(b => b.pago_em);
+      const totalGastos = boletosPagos.reduce((s, b) => s + Number(b.valor), 0);
+      const pendentes = (boletos || []).filter(b => !b.pago_em);
+      const totalPendentes = pendentes.reduce((s, b) => s + Number(b.valor), 0);
+      const saldo = totalVendas - totalGastos;
+
+      document.getElementById('rVendas').textContent = formatCurrency(totalVendas);
+      document.getElementById('rGastos').textContent = formatCurrency(totalGastos);
+      document.getElementById('rSaldo').textContent = formatCurrency(saldo);
+      document.getElementById('rPendentes').textContent = formatCurrency(totalPendentes);
+      const saldoCard = document.getElementById('rSaldoCard');
+      saldoCard.className = 'summary-card ' + (saldo >= 0 ? 'green' : 'red');
+
+      // Tabela de vendas
+      const vendasPanel = document.getElementById('vendasPanel');
+      if (!vendas || !vendas.length) {
+        vendasPanel.innerHTML = '<p class="report-empty">Nenhuma venda registrada neste período.</p>';
+      } else {
+        vendasPanel.innerHTML = `<div class="table-wrap"><table>
+          <thead><tr><th>Data</th><th>Valor</th><th>Observação</th></tr></thead>
+          <tbody>${vendas.map(v => `<tr>
+            <td>${formatDateBR(v.data)}</td>
+            <td><strong>${formatCurrency(v.valor)}</strong></td>
+            <td style="color:#595959;">${v.observacao || '—'}</td>
+          </tr>`).join('')}
+          <tr style="background:#f8fafc;font-weight:700;">
+            <td>Total</td>
+            <td>${formatCurrency(totalVendas)}</td>
+            <td></td>
+          </tr>
+          </tbody></table></div>`;
+      }
+
+      // Tabela de boletos
+      const boletosPanel = document.getElementById('boletosPanel');
+      if (!boletos || !boletos.length) {
+        boletosPanel.innerHTML = '<p class="report-empty">Nenhum boleto neste período.</p>';
+      } else {
+        boletosPanel.innerHTML = `<div class="table-wrap"><table>
+          <thead><tr><th>Fornecedor</th><th>Valor</th><th>Vencimento</th><th>Pago em</th><th>Status</th><th>Descrição</th></tr></thead>
+          <tbody>${boletos.map(b => {
+            const badgeClass = b.pago_em ? 'pago' : (b.vencimento < today ? 'vencido' : 'pendente');
+            const badgeLabel = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
+            return `<tr>
+              <td>${b.fornecedor}</td>
+              <td>${formatCurrency(b.valor)}</td>
+              <td>${formatDateBR(b.vencimento)}</td>
+              <td>${b.pago_em ? formatDateBR(b.pago_em) : '—'}</td>
+              <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+              <td style="color:#595959;">${b.descricao || '—'}</td>
+            </tr>`;
+          }).join('')}
+          <tr style="background:#f8fafc;font-weight:700;">
+            <td>Total pagos</td>
+            <td>${formatCurrency(totalGastos)}</td>
+            <td colspan="4"></td>
+          </tr>
+          ${pendentes.length ? `<tr style="background:#fef3c7;font-weight:700;">
+            <td>Total pendentes</td>
+            <td>${formatCurrency(totalPendentes)}</td>
+            <td colspan="4"></td>
+          </tr>` : ''}
+          </tbody></table></div>`;
+      }
+
+      document.getElementById('loadingMsg').style.display = 'none';
+      document.getElementById('reportContent').style.display = 'block';
+    }
+
+    function gerarPDF() {
+      window.print();
+    }
+
+    init();
+  </script>
+</body>
+</html>

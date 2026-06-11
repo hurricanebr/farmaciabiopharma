@@ -5,6 +5,7 @@
     { "source": "/admin/boletos", "destination": "/admin/boletos.html" },
     { "source": "/admin/boletos/novo", "destination": "/admin/boleto-novo.html" },
     { "source": "/admin/vendas/nova", "destination": "/admin/venda-nova.html" },
-    { "source": "/admin/vendas", "destination": "/admin/vendas.html" }
+    { "source": "/admin/vendas", "destination": "/admin/vendas.html" },
+    { "source": "/admin/relatorio", "destination": "/admin/relatorio.html" }
   ]
 }
