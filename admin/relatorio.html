@@ -110,7 +110,10 @@
 
     <!-- Controles (só na tela) -->
     <div class="no-print report-header">
-      <h1 class="page-title" style="margin-bottom:0">Relatório</h1>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+        <a href="/admin/dashboard" style="color:#64748b;text-decoration:none;font-size:.875rem;">← Voltar</a>
+        <h1 class="page-title" style="margin-bottom:0">Relatório</h1>
+      </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
         <button class="btn btn-blue" onclick="gerarPDF()">⬇ Salvar como PDF</button>
       </div>
