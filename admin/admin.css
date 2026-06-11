@@ -525,38 +525,67 @@ tr:hover td { background: rgba(0,123,182,.03); }
    MOBILE — sem scroll horizontal na página
    ============================================= */
 @media (max-width: 768px) {
-  /* Navbar: logo em cima, links roláveis embaixo */
+  /* Trava definitiva: nenhum elemento vaza horizontalmente */
+  html, body { overflow-x: clip; }
+
+  /* ---- Navbar ---- */
   .navbar { height: auto; }
 
   .navbar__inner {
     flex-wrap: wrap;
-    padding-block: 10px;
+    padding-inline: 12px;
+    padding-block: 8px;
     gap: 0;
   }
 
+  /* Logo na primeira linha */
   .brand { flex: 1; }
+  .brand__img { height: 46px; }
 
+  /* Links na segunda linha, menores para caber sem scroll */
   .navbar__menu {
     width: 100%;
     margin-left: 0;
     padding-bottom: 6px;
     flex-wrap: nowrap;
     overflow-x: auto;
-    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    gap: 0;
   }
   .navbar__menu::-webkit-scrollbar { display: none; }
 
-  .navbar__menu-cta { margin-left: 0; flex-shrink: 0; }
-  .btn-signout { flex-shrink: 0; }
-
-  /* Filter bar com datas: permite quebrar linha */
-  .filter-custom-group.visible {
-    flex-wrap: wrap;
+  .nav-link {
+    font-size: .78rem;
+    padding: .38rem .45rem;
+    white-space: nowrap;
   }
+
+  .navbar__menu-cta { margin-left: 0; flex-shrink: 0; }
+  .btn-signout {
+    font-size: .78rem;
+    padding: .38rem .75rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* ---- Page ---- */
+  .page { padding: 20px 16px; }
+  .page-title { font-size: 1.3rem; }
+
+  /* ---- Summary cards: 1 coluna ---- */
+  .summary-grid { grid-template-columns: 1fr; }
+
+  /* ---- Form card: não ultrapassa a tela ---- */
+  .form-card { max-width: 100%; padding: 20px 16px; }
+
+  /* ---- Filter bar com datas ---- */
+  .filter-custom-group.visible { flex-wrap: wrap; }
   .filter-custom-group input[type="date"] {
     min-width: 0;
     flex: 1 1 120px;
   }
+
+  /* ---- Login card ---- */
+  .login-card { padding: 32px 24px; }
 }
