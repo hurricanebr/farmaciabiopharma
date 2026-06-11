@@ -5,6 +5,7 @@ async function requireAuth() {
   const { data: { session } } = await db.auth.getSession();
   if (!session) {
     window.location.href = '/admin';
+    return;
   }
   return session;
 }
@@ -15,7 +16,7 @@ async function signOut() {
 }
 
 function formatCurrency(value) {
-  return Number(value).toLocaleString('pt-BR', {
+  return Number(value || 0).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL'
   });
@@ -32,7 +33,9 @@ function getDateRange(period, customStart, customEnd) {
   }
   if (period === 'week') {
     const start = new Date(today);
-    start.setDate(today.getDate() - today.getDay());
+    const dayOfWeek = today.getDay();
+    const offset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    start.setDate(today.getDate() - offset);
     return { start: toISO(start), end: toISO(today) };
   }
   if (period === 'month') {
