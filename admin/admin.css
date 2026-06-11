@@ -548,7 +548,8 @@ tr:hover td { background: rgba(0,123,182,.03); }
   }
   .navbar__menu::-webkit-scrollbar { display: none; }
 
-  .navbar__menu-cta { margin-left: auto; }
+  .navbar__menu-cta { margin-left: 0; flex-shrink: 0; }
+  .btn-signout { flex-shrink: 0; }
 
   /* Filter bar com datas: permite quebrar linha */
   .filter-custom-group.visible {
