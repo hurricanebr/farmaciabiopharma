@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Biopharma Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="/admin/config.js"></script>
+</head>
+<body>
+  <nav class="topbar">
+    <span class="topbar-logo">Biopharma Admin</span>
+    <div class="topbar-nav">
+      <a href="/admin/dashboard" class="active">Dashboard</a>
+      <a href="/admin/boletos">Boletos</a>
+    </div>
+    <button class="btn-signout" onclick="signOut()">Sair</button>
+  </nav>
+
+  <div class="page">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+      <h1 class="page-title" style="margin-bottom:0">Dashboard</h1>
+      <div class="filter-bar" style="margin-bottom:0">
+        <button class="filter-btn" onclick="setFilter('today',this)">Hoje</button>
+        <button class="filter-btn" onclick="setFilter('week',this)">Esta semana</button>
+        <button class="filter-btn active" onclick="setFilter('month',this)">Este mês</button>
+        <button class="filter-btn" onclick="setFilter('custom',this)">Personalizado</button>
+        <div class="filter-custom-group" id="customGroup">
+          <input type="date" id="customStart" />
+          <span>até</span>
+          <input type="date" id="customEnd" />
+          <button class="btn btn-primary btn-sm" onclick="applyCustomFilter()">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card blue">
+        <div class="label">Vendas</div>
+        <div class="value" id="totalVendas">—</div>
+      </div>
+      <div class="summary-card red">
+        <div class="label">Gastos (boletos)</div>
+        <div class="value" id="totalGastos">—</div>
+      </div>
+      <div class="summary-card" id="saldoCard">
+        <div class="label">Saldo estimado</div>
+        <div class="value" id="totalSaldo">—</div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="panel">
+        <div class="panel-title">Balanço do período</div>
+        <div class="chart-container">
+          <canvas id="balanceChart"></canvas>
+        </div>
+        <div class="panel-title" style="margin-top:24px;">Últimos 5 boletos</div>
+        <div id="recentBoletos"><p style="color:#94a3b8;font-size:.875rem;">Carregando...</p></div>
+      </div>
+
+      <div>
+        <div class="panel" style="margin-bottom:16px;">
+          <div class="panel-title">⚠️ Alertas de vencimento</div>
+          <div id="alertsPanel"><p style="color:#94a3b8;font-size:.875rem;">Verificando...</p></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <a href="/admin/boletos/novo" class="btn btn-primary" style="flex:1;text-align:center;">+ Boleto</a>
+          <a href="/admin/vendas/nova" class="btn btn-success" style="flex:1;text-align:center;">+ Venda</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin.js"></script>
+  <script>
+    let currentFilter = 'month';
+    let chartInstance = null;
+
+    async function init() {
+      await requireAuth();
+      await loadDashboard();
+    }
+
+    function setFilter(period, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = period;
+      const customGroup = document.getElementById('customGroup');
+      if (period === 'custom') {
+        customGroup.classList.add('visible');
+        return;
+      }
+      customGroup.classList.remove('visible');
+      loadDashboard();
+    }
+
+    function applyCustomFilter() {
+      const start = document.getElementById('customStart').value;
+      const end = document.getElementById('customEnd').value;
+      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      loadDashboard(start, end);
+    }
+
+    async function loadDashboard(customStart, customEnd) {
+      const range = getDateRange(currentFilter, customStart, customEnd);
+
+      const [{ data: boletos }, { data: vendas }] = await Promise.all([
+        db.from('boletos').select('valor,vencimento,pago_em').gte('vencimento', range.start).lte('vencimento', range.end),
+        db.from('vendas').select('valor').gte('data', range.start).lte('data', range.end)
+      ]);
+
+      const totalGastos = (boletos || []).reduce((s, b) => s + Number(b.valor), 0);
+      const totalVendas = (vendas || []).reduce((s, v) => s + Number(v.valor), 0);
+      const saldo = totalVendas - totalGastos;
+
+      document.getElementById('totalVendas').textContent = formatCurrency(totalVendas);
+      document.getElementById('totalGastos').textContent = formatCurrency(totalGastos);
+      document.getElementById('totalSaldo').textContent = formatCurrency(saldo);
+      const saldoCard = document.getElementById('saldoCard');
+      saldoCard.className = 'summary-card ' + (saldo >= 0 ? 'green' : 'red');
+
+      renderChart(totalVendas, totalGastos);
+      await loadRecentBoletos();
+      await loadAlerts();
+    }
+
+    function renderChart(vendas, gastos) {
+      const ctx = document.getElementById('balanceChart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Vendas', 'Gastos'],
+          datasets: [{
+            data: [vendas, gastos],
+            backgroundColor: ['#3b82f6', '#ef4444'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          plugins: { legend: { display: false } },
+          scales: {
+            x: {
+              ticks: { callback: (v) => 'R$ ' + Number(v).toLocaleString('pt-BR') }
+            }
+          }
+        }
+      });
+    }
+
+    async function loadRecentBoletos() {
+      const { data } = await db.from('boletos').select('fornecedor,valor,vencimento,pago_em').order('created_at', { ascending: false }).limit(5);
+      const el = document.getElementById('recentBoletos');
+      if (!data || !data.length) {
+        el.innerHTML = '<p style="color:#94a3b8;font-size:.875rem;">Nenhum boleto registrado.</p>';
+        return;
+      }
+      const today = todayISO();
+      el.innerHTML = `<div class="table-wrap"><table>
+        <thead><tr><th>Fornecedor</th><th>Valor</th><th>Vencimento</th><th>Status</th></tr></thead>
+        <tbody>${data.map(b => {
+          const badge = b.pago_em ? 'pago' : (b.vencimento < today ? 'vencido' : 'pendente');
+          const label = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
+          return `<tr><td>${b.fornecedor}</td><td>${formatCurrency(b.valor)}</td><td>${formatDateBR(b.vencimento)}</td><td><span class="badge ${badge}">${label}</span></td></tr>`;
+        }).join('')}</tbody>
+      </table></div>`;
+    }
+
+    async function loadAlerts() {
+      const today = todayISO();
+      const in5days = addDays(today, 5);
+      const { data } = await db.from('boletos').select('fornecedor,valor,vencimento').is('pago_em', null).lte('vencimento', in5days).order('vencimento');
+      const el = document.getElementById('alertsPanel');
+      if (!data || !data.length) {
+        el.innerHTML = '<p style="color:#16a34a;font-size:.875rem;">✅ Nenhum boleto urgente.</p>';
+        return;
+      }
+      el.innerHTML = data.map(b => {
+        const overdue = b.vencimento < today;
+        const cls = overdue ? 'red' : 'orange';
+        const detail = overdue ? `Venceu em ${formatDateBR(b.vencimento)}` : `Vence em ${formatDateBR(b.vencimento)}`;
+        return `<div class="alert-item ${cls}"><div class="alert-supplier">${b.fornecedor}</div><div class="alert-detail">${detail} · ${formatCurrency(b.valor)}</div></div>`;
+      }).join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
