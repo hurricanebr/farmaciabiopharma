@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boletos — Biopharma Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/admin/config.js"></script>
+</head>
+<body>
+  <nav class="topbar">
+    <span class="topbar-logo">Biopharma Admin</span>
+    <div class="topbar-nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/boletos" class="active">Boletos</a>
+    </div>
+    <button class="btn-signout" onclick="signOut()">Sair</button>
+  </nav>
+
+  <div class="page">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <h1 class="page-title" style="margin-bottom:0">Boletos</h1>
+      <a href="/admin/boletos/novo" class="btn btn-primary">+ Adicionar Boleto</a>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn" onclick="setFilter('today',this)">Hoje</button>
+      <button class="filter-btn" onclick="setFilter('week',this)">Esta semana</button>
+      <button class="filter-btn active" onclick="setFilter('month',this)">Este mês</button>
+      <button class="filter-btn" onclick="setFilter('custom',this)">Personalizado</button>
+      <div class="filter-custom-group" id="customGroup">
+        <input type="date" id="customStart" />
+        <span>até</span>
+        <input type="date" id="customEnd" />
+        <button class="btn btn-primary btn-sm" onclick="applyCustomFilter()">Aplicar</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fornecedor</th>
+              <th>Valor</th>
+              <th>Vencimento</th>
+              <th>Status</th>
+              <th>Descrição</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="boletosTableBody">
+            <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin.js"></script>
+  <script>
+    let currentFilter = 'month';
+
+    async function init() {
+      await requireAuth();
+      await loadBoletos();
+    }
+
+    function setFilter(period, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = period;
+      const customGroup = document.getElementById('customGroup');
+      if (period === 'custom') { customGroup.classList.add('visible'); return; }
+      customGroup.classList.remove('visible');
+      loadBoletos();
+    }
+
+    function applyCustomFilter() {
+      const start = document.getElementById('customStart').value;
+      const end = document.getElementById('customEnd').value;
+      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      loadBoletos(start, end);
+    }
+
+    async function loadBoletos(customStart, customEnd) {
+      const range = getDateRange(currentFilter, customStart, customEnd);
+      const { data, error } = await db.from('boletos').select('*').gte('vencimento', range.start).lte('vencimento', range.end).order('vencimento');
+      const tbody = document.getElementById('boletosTableBody');
+      if (error || !data || !data.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum boleto encontrado.</td></tr>';
+        return;
+      }
+      const today = todayISO();
+      tbody.innerHTML = data.map(b => {
+        const badgeClass = b.pago_em ? 'pago' : (b.vencimento < today ? 'vencido' : 'pendente');
+        const badgeLabel = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
+        const acoes = b.pago_em
+          ? `<span style="color:#94a3b8;font-size:.8rem;">Pago em ${formatDateBR(b.pago_em)}</span>`
+          : `<button class="btn-pago" onclick="marcarPago('${b.id}',this)">PAGO</button>`;
+        const imgBtn = b.url_imagem
+          ? `<a href="${b.url_imagem}" target="_blank" class="btn btn-secondary btn-sm" style="margin-left:6px;">Ver boleto</a>`
+          : '';
+        return `<tr>
+          <td>${b.fornecedor}</td>
+          <td>${formatCurrency(b.valor)}</td>
+          <td>${formatDateBR(b.vencimento)}</td>
+          <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+          <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${b.descricao || ''}">${b.descricao || '—'}</td>
+          <td>${acoes}${imgBtn}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function marcarPago(id, btn) {
+      btn.textContent = 'Salvando...';
+      btn.disabled = true;
+      const { error } = await db.from('boletos').update({ pago_em: todayISO() }).eq('id', id);
+      if (error) {
+        alert('Erro ao salvar. Tente novamente.');
+        btn.textContent = 'PAGO';
+        btn.disabled = false;
+        return;
+      }
+      await loadBoletos();
+    }
+
+    init();
+  </script>
+</body>
+</html>
