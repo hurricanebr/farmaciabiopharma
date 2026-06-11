@@ -9,3 +9,6 @@ Thumbs.db
 _estrategia_tmp.html
 _edge_profile/
 _preview_*.png
+
+node_modules/
+admin/config.js
