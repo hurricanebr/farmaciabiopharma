@@ -4,19 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boletos — Biopharma Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/admin/admin.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="/api/get-config"></script>
 </head>
 <body>
-  <nav class="topbar">
-    <span class="topbar-logo">Biopharma Admin</span>
-    <div class="topbar-nav">
-      <a href="/admin/dashboard">Dashboard</a>
-      <a href="/admin/boletos" class="active">Boletos</a>
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="/admin/dashboard" class="brand" aria-label="Biopharma Admin">
+        <img src="/banner_site.png" alt="Biopharma Farmácia" class="brand__img">
+      </a>
+      <ul class="navbar__menu">
+        <li><a href="/admin/dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="/admin/boletos" class="nav-link active">Boletos</a></li>
+        <li class="navbar__menu-cta">
+          <button class="btn-signout" onclick="signOut()">Sair</button>
+        </li>
+      </ul>
     </div>
-    <button class="btn-signout" onclick="signOut()">Sair</button>
   </nav>
 
   <div class="page">

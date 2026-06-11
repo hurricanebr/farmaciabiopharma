@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Biopharma Farmácia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/admin/admin.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="/api/get-config"></script>
@@ -13,10 +13,10 @@
   <div class="login-page">
     <div class="login-card">
       <div class="login-logo">
-        <img src="/logo.png" alt="Biopharma" />
+        <img src="/banner_site.png" alt="Biopharma Farmácia" style="height:52px;width:auto;" />
       </div>
       <h1 class="login-title">Painel Administrativo</h1>
-      <p class="login-subtitle">Biopharma Farmácia</p>
+      <p class="login-subtitle">Acesso restrito à equipe</p>
 
       <div class="login-error" id="loginError"></div>
 
@@ -29,7 +29,7 @@
           <label for="password">Senha</label>
           <input type="password" id="password" placeholder="••••••••" required />
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%;padding:11px;" id="submitBtn">
+        <button type="submit" class="btn btn-blue" style="width:100%;padding:11px;" id="submitBtn">
           Entrar
         </button>
       </form>

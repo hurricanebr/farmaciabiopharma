@@ -4,20 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — Biopharma Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/admin/admin.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <script src="/api/get-config"></script>
 </head>
 <body>
-  <nav class="topbar">
-    <span class="topbar-logo">Biopharma Admin</span>
-    <div class="topbar-nav">
-      <a href="/admin/dashboard" class="active">Dashboard</a>
-      <a href="/admin/boletos">Boletos</a>
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="/admin/dashboard" class="brand" aria-label="Biopharma Admin">
+        <img src="/banner_site.png" alt="Biopharma Farmácia" class="brand__img">
+      </a>
+      <ul class="navbar__menu">
+        <li><a href="/admin/dashboard" class="nav-link active">Dashboard</a></li>
+        <li><a href="/admin/boletos" class="nav-link">Boletos</a></li>
+        <li class="navbar__menu-cta">
+          <button class="btn-signout" onclick="signOut()">Sair</button>
+        </li>
+      </ul>
     </div>
-    <button class="btn-signout" onclick="signOut()">Sair</button>
   </nav>
 
   <div class="page">
@@ -32,7 +38,7 @@
           <input type="date" id="customStart" />
           <span>até</span>
           <input type="date" id="customEnd" />
-          <button class="btn btn-primary btn-sm" onclick="applyCustomFilter()">Aplicar</button>
+          <button class="btn btn-blue btn-sm" onclick="applyCustomFilter()">Aplicar</button>
         </div>
       </div>
     </div>
@@ -137,7 +143,7 @@
           labels: ['Vendas', 'Gastos'],
           datasets: [{
             data: [vendas, gastos],
-            backgroundColor: ['#3b82f6', '#ef4444'],
+            backgroundColor: ['#007BB6', '#dc2626'],
             borderRadius: 6
           }]
         },
