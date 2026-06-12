@@ -60,7 +60,10 @@
   <div class="page">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <h1 class="page-title" style="margin-bottom:0">Boletos</h1>
-      <a href="/admin/boletos/novo" class="btn btn-primary">+ Adicionar Boleto</a>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" onclick="exportCSV()">⬇ CSV</button>
+        <a href="/admin/boletos/novo" class="btn btn-primary">+ Adicionar Boleto</a>
+      </div>
     </div>
 
     <div class="filter-bar">
@@ -75,6 +78,12 @@
         <input type="date" id="customEnd" />
         <button class="btn btn-blue btn-sm" onclick="applyCustomFilter()">Aplicar</button>
       </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <input type="text" id="searchInput" placeholder="Buscar por fornecedor ou descrição..."
+        style="width:100%;max-width:360px;padding:9px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:.875rem;font-family:inherit;color:#333;transition:border-color .22s ease;"
+        oninput="filterAndRender()" />
     </div>
 
     <div class="panel">
@@ -95,6 +104,7 @@
           </tbody>
         </table>
       </div>
+      <div id="paginationBar" style="display:flex;align-items:center;justify-content:space-between;padding:12px 4px 0;font-size:.875rem;color:#595959;"></div>
     </div>
   </div>
 
@@ -102,6 +112,8 @@
   <script>
     let currentFilter = 'month';
     let allBoletos = [];
+    let currentPage = 1;
+    const PAGE_SIZE = 10;
 
     async function init() {
       await requireAuth();
@@ -121,11 +133,12 @@
     function applyCustomFilter() {
       const start = document.getElementById('customStart').value;
       const end = document.getElementById('customEnd').value;
-      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      if (!start || !end) { showToast('Selecione as duas datas.', 'error'); return; }
       loadBoletos(start, end);
     }
 
     async function loadBoletos(customStart, customEnd) {
+      setTableLoading('boletosTableBody', 6);
       let query = db.from('boletos').select('*').order('vencimento');
       if (currentFilter !== 'all') {
         const range = getDateRange(currentFilter, customStart, customEnd);
@@ -133,18 +146,25 @@
       }
       const { data, error } = await query;
       const tbody = document.getElementById('boletosTableBody');
-      if (error || !data || !data.length) {
+      if (error) { handleDbError(error); return; }
+      if (!data || !data.length) {
         tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum boleto encontrado.</td></tr>';
+        const bar = document.getElementById('paginationBar');
+        if (bar) bar.innerHTML = '';
         return;
       }
       allBoletos = data;
+      currentPage = 1;
       renderTable(data);
     }
 
     function renderTable(data) {
       const today = todayISO();
       const tbody = document.getElementById('boletosTableBody');
-      tbody.innerHTML = data.map(b => {
+      const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPages);
+      const slice = data.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+      tbody.innerHTML = slice.map(b => {
         const badgeClass = b.pago_em ? 'pago' : (b.vencimento < today ? 'vencido' : 'pendente');
         const badgeLabel = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
         const pagoBtn = b.pago_em
@@ -167,13 +187,42 @@
           </td>
         </tr>`;
       }).join('');
+
+      const bar = document.getElementById('paginationBar');
+      if (!bar) return;
+      if (totalPages <= 1) { bar.innerHTML = ''; return; }
+      bar.innerHTML = `
+        <span>${(currentPage-1)*PAGE_SIZE+1}–${Math.min(currentPage*PAGE_SIZE, data.length)} de ${data.length}</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-secondary btn-sm" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>‹ Anterior</button>
+          <button class="btn btn-secondary btn-sm" onclick="changePage(1)" ${currentPage===totalPages?'disabled':''}>Próxima ›</button>
+        </div>`;
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      const q = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
+      const filtered = q
+        ? allBoletos.filter(b => (b.fornecedor||'').toLowerCase().includes(q) || (b.descricao||'').toLowerCase().includes(q))
+        : allBoletos;
+      renderTable(filtered);
+    }
+
+    function filterAndRender() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const filtered = q
+        ? allBoletos.filter(b => (b.fornecedor||'').toLowerCase().includes(q) || (b.descricao||'').toLowerCase().includes(q))
+        : allBoletos;
+      currentPage = 1;
+      renderTable(filtered);
     }
 
     async function marcarPago(id, btn) {
       btn.textContent = 'Salvando...';
       btn.disabled = true;
       const { error } = await db.from('boletos').update({ pago_em: todayISO() }).eq('id', id);
-      if (error) { alert('Erro ao salvar. Tente novamente.'); btn.textContent = 'PAGO'; btn.disabled = false; return; }
+      if (error) { handleDbError(error); btn.textContent = 'PAGO'; btn.disabled = false; return; }
+      showToast('Boleto marcado como pago!', 'success');
       await loadBoletos();
     }
 
@@ -187,6 +236,7 @@
       document.getElementById('editDescricao').value = b.descricao || '';
       const modal = document.getElementById('editModal');
       modal.style.display = 'flex';
+      document.getElementById('editFornecedor').focus();
     }
 
     function closeModal() {
@@ -199,23 +249,47 @@
       const valor = parseFloat(document.getElementById('editValor').value);
       const vencimento = document.getElementById('editVencimento').value;
       const descricao = document.getElementById('editDescricao').value.trim();
-      if (!fornecedor || !valor || !vencimento) { alert('Preencha todos os campos obrigatórios.'); return; }
+      if (!fornecedor || !valor || !vencimento) { showToast('Preencha todos os campos obrigatórios.', 'error'); return; }
       const { error } = await db.from('boletos').update({ fornecedor, valor, vencimento, descricao }).eq('id', id);
-      if (error) { alert('Erro ao salvar. Tente novamente.'); return; }
+      if (error) { handleDbError(error); return; }
+      showToast('Boleto salvo com sucesso!', 'success');
       closeModal();
       await loadBoletos();
     }
 
     async function excluirBoleto(id, fornecedor) {
-      if (!confirm(`Excluir o boleto de "${fornecedor}"?\n\nEssa ação não pode ser desfeita.`)) return;
+      if (!await showConfirm(`Excluir o boleto de "${fornecedor}"?\n\nEssa ação não pode ser desfeita.`, 'Excluir')) return;
       const { error } = await db.from('boletos').delete().eq('id', id);
-      if (error) { alert('Erro ao excluir. Tente novamente.'); return; }
+      if (error) { handleDbError(error); return; }
+      showToast('Boleto excluído.', 'info');
       await loadBoletos();
+    }
+
+    function exportCSV() {
+      if (!allBoletos.length) { showToast('Nenhum dado para exportar.', 'info'); return; }
+      const rows = [['Fornecedor','Valor','Vencimento','Status','Descricao']];
+      const today = todayISO();
+      allBoletos.forEach(b => {
+        const status = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
+        rows.push([b.fornecedor, b.valor, b.vencimento, status, b.descricao || '']);
+      });
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'}));
+      a.download = `boletos-${todayISO()}.csv`;
+      a.click();
     }
 
     // Fechar modal ao clicar fora
     document.getElementById('editModal').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
+    });
+
+    // ESC fecha o modal
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('editModal').style.display === 'flex') {
+        closeModal();
+      }
     });
 
     init();

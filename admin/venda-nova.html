@@ -65,12 +65,12 @@
       const observacao = document.getElementById('observacao').value.trim();
 
       if (!data || !valor || parseFloat(valor) <= 0) {
-        alert('Preencha a data e um valor maior que zero.');
+        showToast('Preencha a data e um valor maior que zero.', 'error');
         return;
       }
 
       const btn = document.getElementById('saveBtn');
-      btn.textContent = 'Salvando...';
+      btn.innerHTML = '<span class="bp-spinner" style="width:16px;height:16px;border-width:2px;vertical-align:middle;margin-right:6px;"></span>Salvando...';
       btn.disabled = true;
 
       const { error } = await db.from('vendas').insert({
@@ -80,12 +80,14 @@
       });
 
       if (error) {
-        alert('Erro ao salvar. Tente novamente.');
+        handleDbError(error);
         btn.textContent = 'SALVAR VENDA';
         btn.disabled = false;
         return;
       }
 
+      showToast('Venda registrada com sucesso!', 'success');
+      await new Promise(r => setTimeout(r, 800));
       window.location.href = '/admin/dashboard';
     }
 

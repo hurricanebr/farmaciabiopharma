@@ -154,12 +154,12 @@
       const descricao = document.getElementById('descricao').value.trim();
 
       if (!fornecedor || !valor || !vencimento) {
-        alert('Preencha fornecedor, valor e vencimento.');
+        showToast('Preencha fornecedor, valor e vencimento.', 'error');
         return;
       }
 
       const btn = document.getElementById('saveBtn');
-      btn.textContent = 'Salvando...';
+      btn.innerHTML = '<span class="bp-spinner" style="width:16px;height:16px;border-width:2px;vertical-align:middle;margin-right:6px;"></span>Salvando...';
       btn.disabled = true;
 
       let url_imagem = null;
@@ -185,12 +185,14 @@
       });
 
       if (error) {
-        alert('Erro ao salvar boleto. Tente novamente.');
+        handleDbError(error);
         btn.textContent = 'SALVAR BOLETO';
         btn.disabled = false;
         return;
       }
 
+      showToast('Boleto salvo com sucesso!', 'success');
+      await new Promise(r => setTimeout(r, 800));
       window.location.href = '/admin/boletos';
     }
 

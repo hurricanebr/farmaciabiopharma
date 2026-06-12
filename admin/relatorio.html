@@ -115,6 +115,7 @@
         <h1 class="page-title" style="margin-bottom:0">Relatório</h1>
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="exportCSV()">⬇ CSV</button>
         <button class="btn btn-blue" onclick="gerarPDF()">⬇ Salvar como PDF</button>
       </div>
     </div>
@@ -136,7 +137,9 @@
     <p class="report-period no-print" id="screenPeriodLabel" style="margin-bottom:20px;"></p>
 
     <!-- Carregando -->
-    <div id="loadingMsg" style="text-align:center;padding:48px;color:var(--bp-text-mid);">Carregando...</div>
+    <div id="loadingMsg" style="text-align:center;padding:48px;color:var(--bp-text-mid);display:none;">
+  <span class="bp-spinner" style="width:32px;height:32px;border-width:4px;display:inline-block;"></span>
+</div>
 
     <!-- Conteúdo do relatório -->
     <div id="reportContent" style="display:none;">
@@ -217,7 +220,7 @@
     function applyCustomFilter() {
       const start = document.getElementById('customStart').value;
       const end = document.getElementById('customEnd').value;
-      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      if (!start || !end) { showToast('Selecione as duas datas.', 'error'); return; }
       currentCustomStart = start;
       currentCustomEnd = end;
       loadReport(start, end);
@@ -247,10 +250,14 @@
 
       const today = todayISO();
 
-      const [{ data: vendas }, { data: boletos }] = await Promise.all([
+      const [{ data: vendas, error: eVendas }, { data: boletos, error: eBoletos }] = await Promise.all([
         db.from('vendas').select('*').gte('data', range.start).lte('data', range.end).order('data', { ascending: false }),
         db.from('boletos').select('*').gte('vencimento', range.start).lte('vencimento', range.end).order('vencimento'),
       ]);
+      if (eVendas) { handleDbError(eVendas); return; }
+      if (eBoletos) { handleDbError(eBoletos); return; }
+      window._reportVendas = vendas || [];
+      window._reportBoletos = boletos || [];
 
       // Resumo
       const totalVendas = (vendas || []).reduce((s, v) => s + Number(v.valor), 0);
@@ -325,6 +332,47 @@
 
     function gerarPDF() {
       window.print();
+    }
+
+    function exportCSV() {
+      // Export combined report: vendas then boletos
+      const range = getDateRange(currentFilter, currentCustomStart, currentCustomEnd);
+      const label = currentFilter === 'custom'
+        ? `${range.start}_${range.end}`
+        : currentFilter;
+
+      // Use the module-level variables set during loadReport
+      if (!window._reportVendas && !window._reportBoletos) {
+        showToast('Carregue o relatório antes de exportar.', 'info');
+        return;
+      }
+
+      const rows = [];
+      rows.push(['RELATÓRIO BIOPHARMA']);
+      rows.push([`Período: ${document.getElementById('screenPeriodLabel').textContent}`]);
+      rows.push([]);
+
+      // Vendas section
+      rows.push(['--- VENDAS ---']);
+      rows.push(['Data', 'Valor', 'Observação']);
+      (window._reportVendas || []).forEach(v => rows.push([v.data, v.valor, v.observacao || '']));
+      rows.push([]);
+
+      // Boletos section
+      rows.push(['--- BOLETOS ---']);
+      rows.push(['Fornecedor', 'Valor', 'Vencimento', 'Pago em', 'Status', 'Descrição']);
+      const today = todayISO();
+      (window._reportBoletos || []).forEach(b => {
+        const status = b.pago_em ? 'PAGO' : (b.vencimento < today ? 'VENCIDO' : 'PENDENTE');
+        rows.push([b.fornecedor, b.valor, b.vencimento, b.pago_em || '', status, b.descricao || '']);
+      });
+
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'}));
+      a.download = `relatorio-${label}-${todayISO()}.csv`;
+      a.click();
+      showToast('CSV exportado!', 'success');
     }
 
     init();

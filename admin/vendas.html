@@ -8,6 +8,16 @@
   <link rel="stylesheet" href="/admin/admin.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="/api/get-config"></script>
+  <style>
+    @media (max-width: 600px) {
+      #vendasTableBody tr { display: block; border-bottom: 2px solid #f1f1f1; padding: 8px 0; }
+      #vendasTableBody td { display: flex; justify-content: space-between; align-items: center; padding: 6px 14px; border: none; font-size: .85rem; }
+      #vendasTableBody td::before { content: attr(data-label); font-weight: 700; color: #595959; font-size: .75rem; text-transform: uppercase; letter-spacing: .4px; margin-right: 8px; flex-shrink: 0; }
+      #vendasTableBody td[data-label="Ações"] { justify-content: flex-end; }
+      #vendasTableBody td[data-label="Ações"]::before { display: none; }
+      table thead { display: none; }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar" id="navbar">
@@ -54,7 +64,10 @@
   <div class="page">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <h1 class="page-title" style="margin-bottom:0">Vendas</h1>
-      <a href="/admin/vendas/nova" class="btn btn-success">+ Registrar Venda</a>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" onclick="exportCSV()">⬇ CSV</button>
+        <a href="/admin/vendas/nova" class="btn btn-success">+ Registrar Venda</a>
+      </div>
     </div>
 
     <div class="filter-bar">
@@ -99,6 +112,7 @@
           </tbody>
         </table>
       </div>
+      <div id="paginationBar" style="display:flex;align-items:center;justify-content:space-between;padding:12px 4px 0;font-size:.875rem;color:#595959;"></div>
     </div>
   </div>
 
@@ -106,6 +120,8 @@
   <script>
     let currentFilter = 'month';
     let allVendas = [];
+    let currentPage = 1;
+    const PAGE_SIZE = 10;
 
     async function init() {
       await requireAuth();
@@ -125,37 +141,69 @@
     function applyCustomFilter() {
       const start = document.getElementById('customStart').value;
       const end = document.getElementById('customEnd').value;
-      if (!start || !end) { alert('Selecione as duas datas.'); return; }
+      if (!start || !end) { showToast('Selecione as duas datas.', 'error'); return; }
       loadVendas(start, end);
     }
 
     async function loadVendas(customStart, customEnd) {
+      setTableLoading('vendasTableBody', 4);
       let query = db.from('vendas').select('*').order('data', { ascending: false });
       if (currentFilter !== 'all') {
         const range = getDateRange(currentFilter, customStart, customEnd);
         query = query.gte('data', range.start).lte('data', range.end);
       }
       const { data, error } = await query;
-      const tbody = document.getElementById('vendasTableBody');
-      if (error || !data || !data.length) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:32px;">Nenhuma venda encontrada.</td></tr>';
+      if (error) { handleDbError(error); return; }
+      if (!data || !data.length) {
+        document.getElementById('vendasTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:32px;">Nenhuma venda encontrada.</td></tr>';
+        document.getElementById('paginationBar').innerHTML = '';
         document.getElementById('totalPeriodo').textContent = formatCurrency(0);
         document.getElementById('totalRegistros').textContent = '0';
         return;
       }
       allVendas = data;
+      currentPage = 1;
       const total = data.reduce((s, v) => s + Number(v.valor), 0);
       document.getElementById('totalPeriodo').textContent = formatCurrency(total);
       document.getElementById('totalRegistros').textContent = data.length;
-      tbody.innerHTML = data.map(v => `<tr>
-        <td>${formatDateBR(v.data)}</td>
-        <td>${formatCurrency(v.valor)}</td>
-        <td style="color:#595959;">${v.observacao || '—'}</td>
-        <td style="white-space:nowrap;display:flex;gap:6px;">
+      renderTable(allVendas);
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById('vendasTableBody');
+      const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPages);
+      const slice = data.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+      if (!slice.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:32px;">Nenhuma venda encontrada.</td></tr>';
+        document.getElementById('paginationBar').innerHTML = '';
+        return;
+      }
+
+      tbody.innerHTML = slice.map(v => `<tr>
+        <td data-label="Data">${formatDateBR(v.data)}</td>
+        <td data-label="Valor">${formatCurrency(v.valor)}</td>
+        <td data-label="Observação" style="color:#595959;">${v.observacao || '—'}</td>
+        <td data-label="Ações" style="white-space:nowrap;display:flex;gap:6px;">
           <button class="btn btn-secondary btn-sm" onclick="abrirEdicao('${v.id}')">Editar</button>
           <button class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border:none;" onclick="excluirVenda('${v.id}','${formatDateBR(v.data)}')">Excluir</button>
         </td>
       </tr>`).join('');
+
+      const bar = document.getElementById('paginationBar');
+      if (totalPages <= 1) { bar.innerHTML = ''; return; }
+      bar.innerHTML = `
+        <span>${(currentPage-1)*PAGE_SIZE+1}–${Math.min(currentPage*PAGE_SIZE, data.length)} de ${data.length}</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-secondary btn-sm" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>‹ Anterior</button>
+          <button class="btn btn-secondary btn-sm" onclick="changePage(1)" ${currentPage===totalPages?'disabled':''}>Próxima ›</button>
+        </div>`;
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderTable(allVendas);
     }
 
     function abrirEdicao(id) {
@@ -167,6 +215,7 @@
       document.getElementById('editObs').value = v.observacao || '';
       const modal = document.getElementById('editModal');
       modal.style.display = 'flex';
+      document.getElementById('editValor').focus();
     }
 
     function closeModal() {
@@ -178,22 +227,41 @@
       const valor = parseFloat(document.getElementById('editValor').value);
       const data = document.getElementById('editData').value;
       const observacao = document.getElementById('editObs').value.trim();
-      if (!valor || !data) { alert('Preencha valor e data.'); return; }
+      if (!valor || !data) { showToast('Preencha valor e data.', 'error'); return; }
       const { error } = await db.from('vendas').update({ valor, data, observacao }).eq('id', id);
-      if (error) { alert('Erro ao salvar. Tente novamente.'); return; }
+      if (error) { handleDbError(error); return; }
+      showToast('Venda salva com sucesso!', 'success');
       closeModal();
       await loadVendas();
     }
 
     async function excluirVenda(id, dataFormatada) {
-      if (!confirm(`Excluir a venda do dia ${dataFormatada}?\n\nEssa ação não pode ser desfeita.`)) return;
+      if (!await showConfirm(`Excluir a venda do dia ${dataFormatada}?\n\nEssa ação não pode ser desfeita.`, 'Excluir')) return;
       const { error } = await db.from('vendas').delete().eq('id', id);
-      if (error) { alert('Erro ao excluir. Tente novamente.'); return; }
+      if (error) { handleDbError(error); return; }
+      showToast('Venda excluída.', 'info');
       await loadVendas();
+    }
+
+    function exportCSV() {
+      if (!allVendas.length) { showToast('Nenhum dado para exportar.', 'info'); return; }
+      const rows = [['Data','Valor','Observacao']];
+      allVendas.forEach(v => rows.push([v.data, v.valor, v.observacao || '']));
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'}));
+      a.download = `vendas-${todayISO()}.csv`;
+      a.click();
     }
 
     document.getElementById('editModal').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('editModal').style.display === 'flex') {
+        closeModal();
+      }
     });
 
     init();

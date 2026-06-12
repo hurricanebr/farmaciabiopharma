@@ -68,3 +68,72 @@ function formatDateBR(isoDate) {
   const [y, m, d] = isoDate.split('-');
   return `${d}/${m}/${y}`;
 }
+
+function showToast(message, type = 'success') {
+  let container = document.getElementById('bp-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'bp-toast-container';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = `bp-toast bp-toast--${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add('show'));
+  });
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.classList.add('hide');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 3500);
+}
+
+function showConfirm(message, confirmLabel = 'Confirmar') {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'bp-confirm-overlay';
+    overlay.innerHTML = `
+      <div class="bp-confirm-dialog">
+        <p>${message}</p>
+        <div class="bp-confirm-actions">
+          <button class="btn bp-confirm-btn-cancel">Cancelar</button>
+          <button class="bp-confirm-btn-ok">${confirmLabel}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    const close = (result) => {
+      overlay.remove();
+      document.removeEventListener('keydown', onKey);
+      resolve(result);
+    };
+
+    const onKey = (e) => { if (e.key === 'Escape') close(false); };
+    document.addEventListener('keydown', onKey);
+    overlay.querySelector('.bp-confirm-btn-cancel').addEventListener('click', () => close(false));
+    overlay.querySelector('.bp-confirm-btn-ok').addEventListener('click', () => close(true));
+  });
+}
+
+function handleDbError(error) {
+  if (
+    error.status === 401 ||
+    error.status === 403 ||
+    error.code === 'PGRST301' ||
+    error.message?.includes('JWT')
+  ) {
+    showToast('Sessão expirada. Faça login novamente.', 'info');
+    setTimeout(() => { window.location.href = '/admin'; }, 2000);
+  } else {
+    showToast(error.message || 'Erro desconhecido', 'error');
+  }
+  return false;
+}
+
+function setTableLoading(tbodyId, colspan) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="${colspan}" class="loading-cell"><span class="bp-spinner"></span></td></tr>`;
+}
