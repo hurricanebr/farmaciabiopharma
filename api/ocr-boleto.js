@@ -35,7 +35,7 @@ if (!apiKey) {
   if (image.length > MAX_IMAGE_BYTES) {
     return res.status(413).json({ error: 'Image too large' });
   }
-const groq = new Groq({ apiKey });
+
   try {
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const completion = await groq.chat.completions.create({
