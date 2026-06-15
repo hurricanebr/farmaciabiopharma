@@ -16,9 +16,11 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (!process.env.GROQ_API_KEY) {
-    return res.status(500).json({ error: 'Server misconfiguration' });
-  }
+  const apiKey = process.env.GROQ_API_KEY || process.env.BIOPHARMA;
+if (!apiKey) {
+  console.error('OCR error: GROQ_API_KEY env var is not set');
+  return res.status(500).json({ error: 'Server misconfiguration: GROQ_API_KEY not configured' });
+}
 
   const { image, mimeType } = req.body;
 
@@ -33,7 +35,7 @@ module.exports = async function handler(req, res) {
   if (image.length > MAX_IMAGE_BYTES) {
     return res.status(413).json({ error: 'Image too large' });
   }
-
+const groq = new Groq({ apiKey });
   try {
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const completion = await groq.chat.completions.create({
