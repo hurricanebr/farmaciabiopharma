@@ -149,7 +149,14 @@
             "opens": "09:00",
             "closes": "18:00"
           }
-        ]
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "reviewCount": "1",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       },
       {
         "@type": "WebSite",
@@ -185,9 +192,26 @@
           { "@type": "Question", "name": "Como entrar em contato com a Biopharma?", "acceptedAnswer": { "@type": "Answer", "text": "O principal canal de atendimento é o WhatsApp: (51) 99469-7388. Você também pode ligar para (51) 3013-8970 ou visitar a loja na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre." } },
           { "@type": "Question", "name": "A Biopharma vende medicamentos tarjados?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, a Biopharma comercializa medicamentos tarjados e isentos de prescrição, além de produtos de higiene, beleza e cuidados diários." } },
           { "@type": "Question", "name": "Tem farmácia aberta no sábado no Centro de Porto Alegre?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. A Biopharma Farmácia no Centro Histórico (Av. Des. André da Rocha, 328) funciona aos sábados das 09h às 18h." } },
-          { "@type": "Question", "name": "Vocês fazem aferição de pressão arterial?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, a Biopharma realiza aferição de pressão arterial. Não é necessário agendamento — basta comparecer à loja na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre." } },
-          { "@type": "Question", "name": "Vocês aceitam plano de saúde ou convênio?", "acceptedAnswer": { "@type": "Answer", "text": "A Biopharma não trabalha com convênios de saúde. Os pagamentos são feitos diretamente na loja, com os principais meios de pagamento aceitos." } }
+          { "@type": "Question", "name": "Vocês fazem aferição de pressão arterial?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, a Biopharma realiza aferição de pressão arterial gratuitamente. Não é necessário agendamento — basta comparecer à loja na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre." } },
+          { "@type": "Question", "name": "Vocês aceitam plano de saúde ou convênio?", "acceptedAnswer": { "@type": "Answer", "text": "A Biopharma não trabalha com convênios de saúde. Os pagamentos são feitos diretamente na loja, com os principais meios de pagamento aceitos." } },
+          { "@type": "Question", "name": "A aferição de pressão arterial é gratuita na Biopharma?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. A aferição de pressão arterial é gratuita na Biopharma Farmácia. Não é necessário agendamento — basta comparecer durante o horário de funcionamento na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre." } },
+          { "@type": "Question", "name": "Qual farmácia no Centro Histórico de Porto Alegre faz aferição de pressão arterial?", "acceptedAnswer": { "@type": "Answer", "text": "A Biopharma Farmácia, localizada na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre, realiza aferição de pressão arterial gratuitamente, sem necessidade de agendamento. Funciona de segunda a sexta das 09h às 20h e sábados das 09h às 18h." } }
         ]
+      },
+      {
+        "@type": "Review",
+        "@id": "https://farmaciabiopharma.vercel.app/#review-1",
+        "author": {
+          "@type": "Person",
+          "name": "Cliente verificado"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "Farmácia com preço justo, e atendimento impecável! Tudo para sua saúde e bem estar!",
+        "itemReviewed": { "@id": "https://farmaciabiopharma.vercel.app/#pharmacy" }
       }
     ]
   }
@@ -635,6 +659,8 @@
           <details class="faq__item"><summary class="faq__q">Tem farmácia aberta no sábado no Centro de Porto Alegre?</summary><div class="faq__a"><p>Sim. A Biopharma Farmácia no Centro Histórico funciona aos sábados das 09h às 18h.</p></div></details>
           <details class="faq__item"><summary class="faq__q">Como entrar em contato com a Biopharma?</summary><div class="faq__a"><p>O principal canal é o WhatsApp: (51) 99469-7388. Você também pode ligar para (51) 3013-8970 ou visitar a loja na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre.</p></div></details>
           <details class="faq__item"><summary class="faq__q">Qual farmácia no Centro Histórico de Porto Alegre faz aplicação de injetáveis?</summary><div class="faq__a"><p>A Biopharma Farmácia, localizada na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre, realiza aplicação de injetáveis. Agende pelo WhatsApp: (51) 99469-7388.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">A aferição de pressão arterial é gratuita na Biopharma?</summary><div class="faq__a"><p>Sim. A aferição de pressão arterial é gratuita na Biopharma Farmácia. Não é necessário agendamento — basta comparecer durante o horário de funcionamento na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Qual farmácia no Centro Histórico de Porto Alegre faz aferição de pressão arterial?</summary><div class="faq__a"><p>A Biopharma Farmácia, localizada na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre, realiza aferição de pressão arterial gratuitamente, sem necessidade de agendamento. Funciona de segunda a sexta das 09h às 20h e sábados das 09h às 18h.</p></div></details>
         </div>
       </div>
     </section>
