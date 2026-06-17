@@ -69,6 +69,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="logo.png" as="image" />
+  <link rel="preload" href="fachada.jpg" as="image" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 
@@ -85,7 +86,7 @@
         "taxID": "06.960.588/0001-01",
         "description": "Farmácia no Centro Histórico de Porto Alegre com atendimento pelo WhatsApp. Medicamentos, produtos de higiene, beleza e aplicação de injetáveis. Av. Des. André da Rocha, 328.",
         "url": "https://farmaciabiopharma.vercel.app/",
-        "telephone": ["+55 51 3226-8979", "+55 51 99469-7388"],
+        "telephone": ["+55 51 3013-8970", "+55 51 99469-7388"],
         "image": [
           "https://farmaciabiopharma.vercel.app/fachada.jpg",
           "https://farmaciabiopharma.vercel.app/banner_site.png",
@@ -132,6 +133,7 @@
         ],
         "availableService": [
           { "@type": "MedicalTherapy", "name": "Aplicação de injetáveis" },
+          { "@type": "MedicalTherapy", "name": "Aferição de pressão arterial" },
           { "@type": "MedicalTherapy", "name": "Consulta de disponibilidade de medicamentos via WhatsApp" }
         ],
         "openingHoursSpecification": [
@@ -180,9 +182,11 @@
           { "@type": "Question", "name": "Posso consultar se um medicamento está disponível?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade antes da sua visita." } },
           { "@type": "Question", "name": "Vocês fazem aplicação de injetáveis?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, realizamos aplicação de injetáveis. Entre em contato pelo WhatsApp para agendar ou confirmar a disponibilidade." } },
           { "@type": "Question", "name": "Qual farmácia no Centro Histórico de Porto Alegre faz aplicação de injetáveis?", "acceptedAnswer": { "@type": "Answer", "text": "A Biopharma Farmácia, localizada na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre, realiza aplicação de injetáveis. Agende pelo WhatsApp: (51) 99469-7388." } },
-          { "@type": "Question", "name": "Como entrar em contato com a Biopharma Farmácia?", "acceptedAnswer": { "@type": "Answer", "text": "O principal canal de atendimento é o WhatsApp: (51) 99469-7388. Você também pode ligar para (51) 3226-8979 ou visitar a loja na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre." } },
+          { "@type": "Question", "name": "Como entrar em contato com a Biopharma Farmácia?", "acceptedAnswer": { "@type": "Answer", "text": "O principal canal de atendimento é o WhatsApp: (51) 99469-7388. Você também pode ligar para (51) 3013-8970 ou visitar a loja na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre." } },
           { "@type": "Question", "name": "A Biopharma Farmácia vende medicamentos tarjados?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, a Biopharma comercializa medicamentos tarjados e isentos de prescrição, além de produtos de higiene, beleza e cuidados diários." } },
-          { "@type": "Question", "name": "Tem farmácia aberta no sábado no Centro de Porto Alegre?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. A Biopharma Farmácia no Centro Histórico (Av. Des. André da Rocha, 328) funciona aos sábados das 09h às 18h." } }
+          { "@type": "Question", "name": "Tem farmácia aberta no sábado no Centro de Porto Alegre?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. A Biopharma Farmácia no Centro Histórico (Av. Des. André da Rocha, 328) funciona aos sábados das 09h às 18h." } },
+          { "@type": "Question", "name": "Vocês fazem aferição de pressão arterial?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, a Biopharma realiza aferição de pressão arterial. Não é necessário agendamento — basta comparecer à loja na Av. Des. André da Rocha, 328, Centro Histórico de Porto Alegre." } },
+          { "@type": "Question", "name": "Vocês aceitam plano de saúde ou convênio?", "acceptedAnswer": { "@type": "Answer", "text": "A Biopharma não trabalha com convênios de saúde. Os pagamentos são feitos diretamente na loja, com os principais meios de pagamento aceitos." } }
         ]
       }
     ]
@@ -400,6 +404,20 @@
             <h3 class="service-card__title" id="srv4-title">Farmácia no Centro Histórico</h3>
             <p class="service-card__desc">Localização prática para quem mora, trabalha ou circula pelo Centro de Porto Alegre.</p>
           </article>
+          <article class="service-card" aria-labelledby="srv5-title">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 24h28M24 10v28"/><rect x="8" y="8" width="32" height="32" rx="4"/></svg>
+            </div>
+            <h3 class="service-card__title" id="srv5-title">Aferição de pressão arterial</h3>
+            <p class="service-card__desc">Verifique sua pressão sem agendamento. Serviço gratuito disponível durante o horário de funcionamento.</p>
+          </article>
+          <article class="service-card" aria-labelledby="srv6-title">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="M24 16v8l5 5"/></svg>
+            </div>
+            <h3 class="service-card__title" id="srv6-title">Aplicação de injetáveis</h3>
+            <p class="service-card__desc">Realizamos aplicação de injetáveis com segurança. Entre em contato pelo WhatsApp para confirmar disponibilidade.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -613,11 +631,16 @@
         <h2 class="section-title" id="faq-title">Perguntas frequentes</h2>
         <p class="section-subtitle">Tire suas dúvidas sobre a Biopharma Farmácia.</p>
         <div class="faq__list">
-          <details class="faq__item"><summary class="faq__q">Vocês atendem pelo WhatsApp?</summary><div class="faq__a"><p>Sim. Você pode chamar a Biopharma pelo WhatsApp para consultar disponibilidade de medicamentos e produtos.</p></div></details>
-          <details class="faq__item"><summary class="faq__q">Onde fica a Biopharma Farmácia?</summary><div class="faq__a"><p>Estamos na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre/RS.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Vocês atendem pelo WhatsApp?</summary><div class="faq__a"><p>Sim. Você pode chamar a Biopharma pelo WhatsApp para consultar disponibilidade de medicamentos e produtos antes de sair de casa. O número é (51) 99469-7388.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Onde fica a Biopharma Farmácia?</summary><div class="faq__a"><p>Estamos na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre/RS, CEP 90050-160.</p></div></details>
           <details class="faq__item"><summary class="faq__q">Qual é o horário de funcionamento?</summary><div class="faq__a"><p>Atendemos de segunda a sexta das 09h às 20h e aos sábados das 09h às 18h. Domingos e feriados, fechado.</p></div></details>
-          <details class="faq__item"><summary class="faq__q">Posso consultar se um medicamento está disponível?</summary><div class="faq__a"><p>Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Posso consultar se um medicamento está disponível?</summary><div class="faq__a"><p>Sim. Envie o nome do medicamento ou produto pelo WhatsApp para que nossa equipe verifique a disponibilidade antes da sua visita.</p></div></details>
           <details class="faq__item"><summary class="faq__q">Vocês fazem aplicação de injetáveis?</summary><div class="faq__a"><p>Sim, realizamos aplicação de injetáveis. Entre em contato pelo WhatsApp para agendar ou confirmar a disponibilidade.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Vocês fazem aferição de pressão arterial?</summary><div class="faq__a"><p>Sim, realizamos aferição de pressão arterial gratuitamente. Não é necessário agendamento — basta vir até a farmácia durante o horário de funcionamento.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Vocês aceitam plano de saúde ou convênio?</summary><div class="faq__a"><p>A Biopharma não trabalha com convênios de saúde. Os pagamentos são realizados diretamente na loja, com os principais meios de pagamento aceitos.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">A Biopharma vende medicamentos tarjados?</summary><div class="faq__a"><p>Sim, comercializamos medicamentos tarjados e isentos de prescrição, além de produtos de higiene, beleza e cuidados diários.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Tem farmácia aberta no sábado no Centro de Porto Alegre?</summary><div class="faq__a"><p>Sim. A Biopharma Farmácia no Centro Histórico funciona aos sábados das 09h às 18h.</p></div></details>
+          <details class="faq__item"><summary class="faq__q">Como entrar em contato com a Biopharma?</summary><div class="faq__a"><p>O principal canal é o WhatsApp: (51) 99469-7388. Você também pode ligar para (51) 3013-8970 ou visitar a loja na Av. Des. André da Rocha, 328, Centro Histórico, Porto Alegre.</p></div></details>
         </div>
       </div>
     </section>
