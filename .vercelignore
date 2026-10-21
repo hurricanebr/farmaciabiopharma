@@ -1,0 +1,16 @@
+# Publica apenas os arquivos do site (o resto do repositório é material interno)
+/*
+!index.html
+!style.css
+!script.js
+!robots.txt
+!sitemap.xml
+!llms.txt
+!vercel.json
+!fachada.jpg
+!fachada.webp
+!banner_site.webp
+!banner_facebook.jpg
+!biopharma-interior-prateleiras.webp
+!biopharma-produtos-higiene-beleza.webp
+!biopharma-ambiente-interno.webp

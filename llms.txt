@@ -35,7 +35,7 @@ Avaliação: 5,0 estrelas no Google (cliente verificado: "Farmácia com preço j
 - Telefone: (51) 3013-8970
 - Instagram: https://www.instagram.com/farmaciabiopharmapoa/
 - Facebook: https://web.facebook.com/profile.php?id=61590625889611
-- Site: https://farmaciabiopharma.vercel.app/
+- Site: https://www.farmaciabiopharmapoa.com.br/
 
 ## Produtos
 
@@ -50,7 +50,7 @@ Medicamentos tarjados (com receita), medicamentos isentos de prescrição, produ
 
 ## Páginas
 
-- Página principal: https://farmaciabiopharma.vercel.app/
+- Página principal: https://www.farmaciabiopharmapoa.com.br/
 - Google Maps: https://www.google.com/maps/search/Biopharma+Av.+Des.+André+da+Rocha+328+Porto+Alegre
 
 _Última atualização: junho de 2026_
