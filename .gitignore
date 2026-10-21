@@ -11,7 +11,6 @@ _edge_profile/
 _preview_*.png
 
 node_modules/
-admin/config.js
 .agents/
 .superpowers/
 skills-lock.json
