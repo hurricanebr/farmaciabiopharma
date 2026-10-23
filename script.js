@@ -1,9 +1,11 @@
 /* =============================================
-   BIOPHARMA DROGARIA — script.js
+   BIOPHARMA FARMÁCIA — script.js
    ============================================= */
 
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 /* ---------- Ocultar imagens que não carregaram ---------- */
-/* Esconde fachada.jpg e hero enquanto os arquivos não existirem */
+/* Esconde a foto da fachada na seção Localização se o arquivo não carregar */
 (function () {
   document.querySelectorAll('.location__photo img').forEach(img => {
     img.addEventListener('error', () => {
@@ -105,7 +107,7 @@
       if (!target) return;
       e.preventDefault();
       const top = target.getBoundingClientRect().top + window.scrollY - NAV_HEIGHT;
-      window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
     });
   });
 })();
@@ -130,11 +132,20 @@
     next.disabled = current === items.length - 1;
   };
 
+  const open = (i) => {
+    show(i);
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+  };
+
   document.querySelectorAll('.gallery__item').forEach((item, i) => {
-    item.addEventListener('click', () => {
-      show(i);
-      dialog.showModal();
-      document.body.style.overflow = 'hidden';
+    item.addEventListener('click', () => open(i));
+    /* teclado: Enter ou espaço abrem a foto */
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        open(i);
+      }
     });
   });
 
@@ -159,6 +170,7 @@
 
 /* ---------- Intersection observer: fade-in on scroll ---------- */
 (function () {
+  if (REDUCED_MOTION) return;
   const style = document.createElement('style');
   style.textContent = `
     .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
@@ -167,7 +179,7 @@
   document.head.appendChild(style);
 
   const targets = document.querySelectorAll(
-    '.service-card, .info-item, .reviews__badge, .reviews__title, .reviews__text'
+    '.service-card, .info-item, .reviews__title'
   );
   targets.forEach(el => el.classList.add('fade-in'));
 

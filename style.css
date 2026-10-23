@@ -438,6 +438,7 @@ address { font-style: normal; }
   transition: transform .4s ease;
 }
 .gallery__item:hover img { transform: scale(1.05); }
+.gallery__item:focus-visible { outline: 3px solid var(--bp-main); outline-offset: 3px; }
 
 /* =============================================
    LOCALIZAÇÃO
@@ -685,6 +686,19 @@ address { font-style: normal; }
 .footer__copy {
   font-size: .775rem; color: rgba(255,255,255,.35); margin-top: .5rem;
 }
+.footer__privacy {
+  font-size: .75rem; line-height: 1.5; color: rgba(255,255,255,.55);
+  max-width: 720px;
+}
+
+/* Respeita quem pediu menos movimento no sistema */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
 
 /* =============================================
    LIGHTBOX
@@ -771,13 +785,9 @@ address { font-style: normal; }
   .hero__photo-img { height: 380px; }
 }
 
-@media (max-width: 768px) {
-  :root { --nav-h: 72px; }
-
-  /* Navbar mobile */
-  .brand__img { height: 54px; }
-  .navbar__social { display: none; }
-  .navbar__hamburger { display: flex; margin-left: auto; }
+/* Menu vira hambúrguer antes de faltar espaço para todos os links */
+@media (max-width: 1180px) {
+  .navbar__hamburger { display: flex; margin-left: .4rem; }
   .navbar__menu {
     position: fixed; inset: var(--nav-h) 0 0 0; z-index: 800;
     background: #fff; flex-direction: column; align-items: stretch;
@@ -789,6 +799,15 @@ address { font-style: normal; }
   .nav-link { padding: .75rem 1rem; font-size: 1rem; }
   .navbar__menu-cta { margin-left: 0; margin-top: .5rem; }
   .navbar__menu-cta .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 768px) {
+  :root { --nav-h: 72px; }
+
+  /* Navbar mobile */
+  .brand__img { height: 54px; }
+  .navbar__social { display: none; }
+  .navbar__hamburger { margin-left: auto; }
 
   /* Hero */
   .hero { padding-top: calc(var(--nav-h) + 48px); padding-bottom: 72px; }
