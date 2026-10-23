@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>QR Code — Avalie a Biopharma no Google</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    /* ── Paleta Biopharma ── */
+    :root {
+      --dark:   #003558;
+      --main:   #007BB6;
+      --light:  #00AFDA;
+      --yellow: #FFD504;
+      --white:  #FFFFFF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,53,88,.18);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* ── Header ── */
+    .card__header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--main) 100%);
+      padding: 28px 24px 24px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--yellow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-icon svg { width: 28px; height: 28px; }
+
+    .brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--white);
+      letter-spacing: -.01em;
+    }
+
+    .brand-sub {
+      font-size: .75rem;
+      color: rgba(255,255,255,.65);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* ── Body ── */
+    .card__body {
+      padding: 32px 28px 28px;
+    }
+
+    .headline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--dark);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .subtext {
+      font-size: .88rem;
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── QR Code ── */
+    .qr-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    #qrcode {
+      border: 6px solid var(--main);
+      border-radius: 16px;
+      padding: 12px;
+      background: var(--white);
+      display: inline-block;
+    }
+
+    #qrcode img, #qrcode canvas {
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* ── Stars ── */
+    .stars {
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: var(--yellow);
+      margin-bottom: 12px;
+      line-height: 1;
+      text-shadow: 0 1px 4px rgba(0,53,88,.15);
+    }
+
+    .cta-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--main);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: #eee;
+      margin: 20px 0;
+    }
+
+    /* ── Footer ── */
+    .card__footer {
+      background: var(--dark);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .footer-addr {
+      font-size: .78rem;
+      color: rgba(255,255,255,.75);
+      line-height: 1.45;
+    }
+
+    .footer-addr strong {
+      color: var(--yellow);
+      display: block;
+      font-weight: 600;
+    }
+
+    /* ── URL de edição (fora do card) ── */
+    .edit-note {
+      margin-top: 28px;
+      background: #fff;
+      border: 2px solid var(--yellow);
+      border-radius: 12px;
+      padding: 16px 20px;
+      max-width: 420px;
+      width: 100%;
+      font-size: .82rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .edit-note strong { color: var(--dark); }
+
+    .edit-note code {
+      background: #f0f4f8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: .8rem;
+      word-break: break-all;
+    }
+
+    .url-input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: 1.5px solid var(--main);
+      border-radius: 8px;
+      font-size: .85rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+    }
+
+    .url-input:focus { border-color: var(--dark); }
+
+    .btn-regen {
+      margin-top: 8px;
+      width: 100%;
+      padding: 9px;
+      background: var(--main);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .88rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-regen:hover { background: var(--dark); }
+
+    /* ── Print ── */
+    @media print {
+      body { background: white; padding: 0; }
+      .card {
+        box-shadow: none;
+        max-width: 100%;
+        border: 1px solid #ddd;
+      }
+      .edit-note { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- Header -->
+    <div class="card__header">
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <!-- Cruz farmácia em azul escuro -->
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M38 12h24v26h26v24H62v26H38V62H12V38h26z" fill="#003558"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">Biopharma Farmácia</div>
+          <div class="brand-sub">Centro Histórico · Porto Alegre</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="card__body">
+      <div class="headline">Sua opinião faz a diferença!</div>
+      <div class="subtext">Leva menos de 1 minuto. Escaneie o QR code e deixe sua avaliação no Google.</div>
+
+      <div class="qr-container">
+        <div id="qrcode"></div>
+      </div>
+
+      <div class="stars">★★★★★</div>
+      <div class="cta-text">Avalie no Google</div>
+
+      <div class="divider"></div>
+
+      <div style="font-size:.8rem; color:#999; font-style:italic;">
+        Obrigado por confiar na Biopharma! 💙
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="card__footer">
+      <!-- Localização -->
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD504" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      <div class="footer-addr">
+        <strong>Av. Des. André da Rocha, 328</strong>
+        Centro Histórico — Porto Alegre / RS
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Painel de edição da URL -->
+  <div class="edit-note">
+    <strong>🔗 URL do QR code</strong><br>
+    Cole aqui o link de avaliação do Google Business Profile.<br>
+    Acesse: <strong>Google Business → Obter mais avaliações → Copiar link</strong>
+    <input
+      type="url"
+      class="url-input"
+      id="urlInput"
+      placeholder="https://g.page/r/XXXXX/review"
+    />
+    <button class="btn-regen" onclick="regenerate()">Gerar QR Code</button>
+  </div>
+
+  <script>
+    // URL padrão — troque pelo link real do Google Business
+    var REVIEW_URL = "https://farmaciabiopharma.vercel.app/";
+
+    var qr = new QRCode(document.getElementById("qrcode"), {
+      text: REVIEW_URL,
+      width: 220,
+      height: 220,
+      colorDark: "#003558",
+      colorLight: "#FFFFFF",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    function regenerate() {
+      var url = document.getElementById("urlInput").value.trim();
+      if (!url) return;
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), {
+        text: url,
+        width: 220,
+        height: 220,
+        colorDark: "#003558",
+        colorLight: "#FFFFFF",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+  </script>
+
+</body>
+</html>

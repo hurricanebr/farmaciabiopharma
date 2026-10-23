@@ -17,3 +17,7 @@ skills-lock.json
 
 .vercel
 .env*
+
+# Gerados por posts/gerar-guia.js
+Guia_Redes_Sociais_Biopharma.pdf
+posts/para-o-celular/

@@ -1,8 +1,15 @@
 const path = require('path');
+const fs = require('fs');
 
 const ASSETS = path.resolve(__dirname, '..');
-const LOGO = `file:///${ASSETS.replace(/\\/g, '/')}/banner_site.png`;
-const FACHADA = `file:///${ASSETS.replace(/\\/g, '/')}/fachada.jpg`;
+
+// page.setContent() roda em about:blank, que não carrega file:/// — por isso as imagens vão embutidas
+function dataURI(arquivo, mime) {
+  return `data:${mime};base64,${fs.readFileSync(path.join(ASSETS, arquivo)).toString('base64')}`;
+}
+
+const LOGO = dataURI('banner_site.png', 'image/png');
+const FACHADA = dataURI('fachada.jpg', 'image/jpeg');
 
 const BLUE = '#007BB6';
 const YELLOW = '#F5C518';
@@ -68,8 +75,10 @@ const BASE_CSS = `
     background: rgba(0,0,0,0.25);
   }
   .rodape img {
-    height: 40px;
-    object-fit: contain;
+    width: 190px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 10px;
   }
   .rodape span {
     font-family: 'Inter', sans-serif;
@@ -235,6 +244,7 @@ ${BASE_CSS}
 .logo-grande {
   width: 380px;
   object-fit: contain;
+  mix-blend-mode: multiply;
   margin-bottom: 40px;
 }
 .divider {
@@ -269,7 +279,7 @@ ${BASE_CSS}
     <div class="cta-box">${post.cta}</div>
   </div>
   <div class="rodape">
-    <img src="${LOGO}" alt="Biopharma" style="filter:brightness(10)">
+    <img src="${LOGO}" alt="Biopharma">
     <span>@farmaciabiopharmapoa</span>
   </div>
 </div>
